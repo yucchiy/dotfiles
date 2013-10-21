@@ -1,4 +1,4 @@
-" {{{ basic settings
+" basic settings {{{
 
 " highlight search result key mapping
 nnoremap <c-h><c-l> :set hlsearch! hlsearch?<cr>
@@ -34,10 +34,10 @@ augroup FileTypePlugin
   autocmd FileType gitcommit setlocal textwidth=69
 augroup END
 
-" end basic settings }}}
+" }}}
 
 
-" {{{ plugin settings
+" plugin settings {{{
 
 " Plugin read start
 if has('vim_starting')
@@ -52,10 +52,100 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Color scheme
 NeoBundle 'chriskempson/base16-vim'
 
+NeoBundle 'Shougo/vimproc.vim', {
+            \ 'build' : {
+            \       'windows' : 'echo "Please build vimproc manually."',
+            \       'cygwin'  : 'make -f make_cygwin.mak',
+            \       'mac'     : 'make -f make_mac.mak',
+            \       'unix'    : 'make -f make_unix.mak',
+            \   }
+            \ }
+
+
+NeoBundle 'airblade/vim-gitgutter'
+
 " Plugin reading finish
 filetype plugin indent on
 
 " Installation check
 NeoBundleCheck
 
-" end plugin settings }}}
+" }}}
+
+" editing settings {{{
+
+" indent settings {{{
+
+" http://qiita.com/items/c30367a3af5e418595e9
+vnoremap <silent> > >gv
+vnoremap <silent> < <gv
+
+set autoindent
+" auto insert
+set smartindent
+set expandtab
+
+" how much does tab uses space when display
+set tabstop=4
+" how much spaces will be inserted when tab is pressed. saame as BS. if it's set to 0, it'll automatically be the same as tabstop
+set softtabstop=4
+" how much does it change when '>>' or '<<' is pressed
+set shiftwidth=4
+
+if has("autocmd")
+  filetype plugin on
+  filetype indent on
+  " when u wanna turn it off
+  " autocmd FileType html filetype indent off
+
+  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType conf       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType sass       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType jst        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType markdown   setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
+endif 
+
+" turn off auto indent when leaving from insert mode
+autocmd InsertLeave * set nopaste
+
+" }}}
+
+" turn off auto comment insertion after enter
+autocmd FileType * set formatoptions-=ro
+
+" }}}
+
+
+" color settings  {{{
+
+syntax enable
+set t_Co=256
+set background=dark
+colorscheme base16-eighties
+
+" }}}
