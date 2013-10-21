@@ -1,0 +1,23 @@
+[user]
+  name = Yuichiro Mukai
+  email = y.iky917@gmail.com
+
+[color]
+  ui = 1
+
+[core]
+  editor = vim
+  pager = less
+  quotepath = false
+
+[alias]
+  graph = "log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'"
+  gr = "log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'"
+  ci = commit -v
+  st = status
+  df = diff
+  dfc = diff --cached
+  co = checkout
+  br = branch
+  find-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" --format=%H' _"
+  show-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" -p' _"  
