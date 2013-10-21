@@ -26,10 +26,19 @@ set lazyredraw
 " use backspace when insert mode
 set backspace=indent,eol,start
 
+language message C
+language time C
+
+set langmenu=none
+
+set foldenable
+set foldmethod=marker
+
+set ambiwidth=double
+
 set nobackup
 
 " }}}
-
 
 " plugin settings {{{
 
@@ -126,10 +135,26 @@ endif
 " turn off auto indent when leaving from insert mode
 autocmd InsertLeave * set nopaste
 
-" }}}
-
 " turn off auto comment insertion after enter
 autocmd FileType * set formatoptions-=ro
+
+" searching settings {{{
+
+" hit Cap letters even when searching with non Cap
+set ignorecase
+
+" distinct Cap and none Cap when searching with Cap and none combined
+set smartcase
+
+" instant search with enter after the word
+set incsearch
+
+" stop at the end of the file
+set nowrapscan
+
+" }}}
+
+" }}}
 
 " showing settings {{{
 
@@ -139,10 +164,17 @@ set cursorline
 
 set showmatch
 
-" }}}
+set hidden
+
+set ruler
+
+set showcmd
+
+set norestorescreen=off
 
 " }}}
 
+" }}}
 
 " color settings  {{{
 
