@@ -4,7 +4,7 @@
 nnoremap <c-h><c-l> :set hlsearch! hlsearch?<cr>
 
 " leaderkey
-let mapleader=","
+let mapleader=','
 
 " encoding settings
 set enc=utf-8
@@ -40,7 +40,7 @@ set nobackup
 
 " }}}
 
-" plugin settings {{{
+" plugins {{{
 
 " Plugin read start
 if has('vim_starting')
@@ -54,6 +54,15 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Color scheme
 NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'ujihisa/unite-colorscheme'
+
+" Unite
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'osyo-manga/unite-quickfix'
+NeoBundle 'Shougo/unite-help'
+
+" NeoSnipet
+NeoBundle 'Shougo/neosnippet'
 
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
@@ -64,6 +73,13 @@ NeoBundle 'Shougo/vimproc.vim', {
             \   }
             \ }
 
+NeoBundleLazy 'Shougo/unite.vim', {
+            \ 'autoload' : {
+            \     'commands' : [{'name': 'Unite', 'complete' : 'customlist,unite#complete_source'},
+            \                   'UniteWithBufferDir',
+            \                   'UniteWithCursorWord', 'UniteWithInput'],
+            \     }
+            \ }
 
 NeoBundle 'airblade/vim-gitgutter'
 
@@ -72,6 +88,52 @@ filetype plugin indent on
 
 " Installation check
 NeoBundleCheck
+
+" }}}
+
+" plugin settings {{{
+
+" unite.vim {{{
+
+let g:unite_enable_start_insert = 1
+
+let g:unite_source_file_mru_filename_format = ''
+
+let g:unite_source_file_mru_limit = 100
+
+let g:unite_split_rule = 'rightbelow'
+
+let g:loaded_unite_source_bookmark = 1
+let g:loaded_unite_source_tab = 1
+let g:loaded_unite_source_window = 1
+
+noremap [unite] <Nop>
+map     <Leader>u [unite]
+
+nnoremap [unite]u :<C-u>Unite source<CR>
+nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
+nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+
+" }}}
+
+" unite-outline {{{
+
+nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
+
+" }}}
+
+" unite-colorscheme {{{
+
+nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
+
+" }}}
+
+" unite-help {{{
+
+nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
+
+" }}}
 
 " }}}
 
