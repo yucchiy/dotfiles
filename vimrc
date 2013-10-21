@@ -135,6 +135,12 @@ nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
 
 " }}}
 
+" vim-gitgutter {{{
+
+let g:gitgutter_eager = 0
+
+" }}}
+
 " }}}
 
 " editing settings {{{
