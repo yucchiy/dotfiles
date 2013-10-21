@@ -28,12 +28,6 @@ set backspace=indent,eol,start
 
 set nobackup
 
-" Since GitHub cuts the commit title by 70 :D
-augroup FileTypePlugin
-  autocmd!
-  autocmd FileType gitcommit setlocal textwidth=69
-augroup END
-
 " }}}
 
 
@@ -77,8 +71,6 @@ NeoBundleCheck
 " indent settings {{{
 
 " http://qiita.com/items/c30367a3af5e418595e9
-vnoremap <silent> > >gv
-vnoremap <silent> < <gv
 
 set autoindent
 " auto insert
@@ -130,6 +122,7 @@ if has("autocmd")
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
 endif 
 
+
 " turn off auto indent when leaving from insert mode
 autocmd InsertLeave * set nopaste
 
@@ -137,6 +130,16 @@ autocmd InsertLeave * set nopaste
 
 " turn off auto comment insertion after enter
 autocmd FileType * set formatoptions-=ro
+
+" showing settings {{{
+
+set number
+
+set cursorline
+
+set showmatch
+
+" }}}
 
 " }}}
 
