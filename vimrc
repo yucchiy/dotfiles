@@ -61,6 +61,9 @@ NeoBundle 'Shougo/unite-outline'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'Shougo/unite-help'
 
+" neocomplcache.vim
+NeoBundle 'Shougo/neocomplcache.vim'
+
 " NeoSnipet
 NeoBundle 'Shougo/neosnippet'
 
@@ -139,6 +142,58 @@ nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
 
 let g:gitgutter_eager = 0
 
+" }}}
+
+" neocomplcache.vim {{{
+
+let g:acp_enableAtStartup = 0
+
+let g:neocomplcache_enable_at_startup = 1
+
+let g:neocomplcache_enable_smart_case = 1
+
+let g:neocomplcache_enable_underbar_completion = 1
+
+let g:neocomplcache_min_syntax_length = 3
+
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+let g:neocomplcache_max_list = 300
+let g:neocomplcache_max_keyword_width = 20
+
+if !exists('g:neocomplcache_delimiter_patterns')
+  let g:neocomplcache_delimiter_patterns = {}
+endif
+let g:neocomplcache_delimiter_patterns.vim = ['#']
+let g:neocomplcache_delimiter_patterns.cpp = ['::']
+
+" Enable omni completion.
+augroup MyVimrc
+  autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCss
+  autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType php        setlocal omnifunc=phpcomplete#CompletePHP
+  autocmd FileType c          setlocal omnifunc=ccomplete#Complete
+augroup END
+
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c   = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+" neocomplcache
+let g:neocomplcache_vim_completefuncs = {
+      \ 'Unite' : 'unite#complete_source',
+      \}
 " }}}
 
 " }}}
