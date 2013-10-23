@@ -6,6 +6,7 @@
   ui = 1
 
 [core]
+  excludesfile = ~/.gitignore_global
   editor = vim
   pager = less
   quotepath = false

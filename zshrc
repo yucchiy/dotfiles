@@ -1,7 +1,7 @@
 ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
 ZSH_THEME="eastwood"
 
-PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$PATH
+PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$HOME/.rbenv/shims:$PATH
 EDITOR=vim
 TERM="xterm-256color"
 
@@ -11,7 +11,7 @@ export LANG=ja_JP.UTF-8
 export TERM
 export LESSCHARSET=UTF-8
 
-plugins=(git vagrant)
+plugins=(git vagrant rbenv)
 
 source $ZSH/oh-my-zsh.sh
 

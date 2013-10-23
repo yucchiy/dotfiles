@@ -84,7 +84,16 @@ NeoBundleLazy 'Shougo/unite.vim', {
             \     }
             \ }
 
+" syntax
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'kchmck/vim-coffee-script'
+
+" tools
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'scrooloose/nerdtree'
 
 " Plugin reading finish
 filetype plugin indent on
@@ -176,16 +185,18 @@ augroup MyVimrc
   autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCss
+"  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCss
   autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType php        setlocal omnifunc=phpcomplete#CompletePHP
   autocmd FileType c          setlocal omnifunc=ccomplete#Complete
+  autocmd FileType ruby       setlocal omnifunc=rubycomplete#Complete
 augroup END
 
 if !exists('g:neocomplcache_omni_patterns')
   let g:neocomplcache_omni_patterns = {}
 endif
 
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c   = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
@@ -194,6 +205,28 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 let g:neocomplcache_vim_completefuncs = {
       \ 'Unite' : 'unite#complete_source',
       \}
+" }}}
+
+" lightline {{{
+
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+set laststatus=2
+" }}}
+
+" memolist.vim {{{
+map <Leader>mn  :MemoNew<CR>
+map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
+nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
+map <Leader>mg  :MemoGrep<CR>                                                                       
+
+let g:memolist_memo_suffix = "markdown"
+let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+let g:memolist_prompt_tags = 1 
+let g:memolist_vimfiler = 1 
+
+let g:memolist_path = "~/Dropbox/Data/Memolist"
 " }}}
 
 " }}}
@@ -228,7 +261,7 @@ if has("autocmd")
   autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType sass       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
@@ -305,5 +338,27 @@ syntax enable
 set t_Co=256
 set background=dark
 colorscheme base16-eighties
+
+" }}}
+
+" other settings {{{
+
+" html5 {{{
+" HTML 5 tags
+syn keyword htmlTagName contained article aside audio bb canvas command
+syn keyword htmlTagName contained datalist details dialog embed figure
+syn keyword htmlTagName contained header hgroup keygen mark meter nav output
+syn keyword htmlTagName contained progress time ruby rt rp section time
+syn keyword htmlTagName contained source figcaption
+syn keyword htmlArg contained autofocus autocomplete placeholder min max
+syn keyword htmlArg contained contenteditable contextmenu draggable hidden
+syn keyword htmlArg contained itemprop list sandbox subject spellcheck
+syn keyword htmlArg contained novalidate seamless pattern formtarget
+syn keyword htmlArg contained formaction formenctype formmethod
+syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
+syn keyword htmlArg contained hidden role
+syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
+syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
+" }}}
 
 " }}}
