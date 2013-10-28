@@ -11,6 +11,23 @@ export LANG=ja_JP.UTF-8
 export TERM
 export LESSCHARSET=UTF-8
 
+case ${OSTYPE} in
+    darwin*) # Mac OS X
+        function macvim () {
+        if [ -d /Applications/MacVim.app ]
+        then
+            [ ! -f $1 ] && touch $1
+            open -a MacVim $1
+        else
+            vim $1
+        fi
+    }
+    alias vim='macvim'
+    ;;
+esac
+
+
+
 plugins=(git vagrant rbenv)
 
 source $ZSH/oh-my-zsh.sh

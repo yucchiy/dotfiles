@@ -94,6 +94,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'tobyS/pdv'
 
 " Plugin reading finish
 filetype plugin indent on
@@ -197,7 +198,7 @@ if !exists('g:neocomplcache_omni_patterns')
 endif
 
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c   = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
@@ -339,6 +340,10 @@ set t_Co=256
 set background=dark
 colorscheme base16-eighties
 
+" }}}
+
+" gui settings {{{
+set guifont=Ricty:h12
 " }}}
 
 " other settings {{{
