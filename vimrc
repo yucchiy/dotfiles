@@ -295,6 +295,8 @@ autocmd InsertLeave * set nopaste
 " turn off auto comment insertion after enter
 autocmd FileType * set formatoptions-=ro
 
+" }}}
+
 " searching settings {{{
 
 " hit Cap letters even when searching with non Cap
@@ -308,8 +310,6 @@ set incsearch
 
 " stop at the end of the file
 set nowrapscan
-
-" }}}
 
 " }}}
 
@@ -344,6 +344,19 @@ colorscheme base16-eighties
 
 " gui settings {{{
 set guifont=Ricty:h12
+
+" MacVimでアクティブ時と非アクティブ時の透明度を変える {{{
+
+augroup hack234
+  autocmd!
+  if has('mac')
+    autocmd FocusGained * set transparency=5  " アクティブ時の透過率
+    autocmd FocusLost * set transparency=30   " 非アクティブ時の透過率
+  endif
+augroup END
+
+"}}}
+
 " }}}
 
 " other settings {{{
