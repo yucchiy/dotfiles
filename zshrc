@@ -28,7 +28,7 @@ esac
 
 
 
-plugins=(git vagrant rbenv)
+plugins=(git vagrant rbenv bundler)
 
 source $ZSH/oh-my-zsh.sh
 
