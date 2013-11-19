@@ -96,6 +96,9 @@ NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tobyS/pdv'
 
+" references
+NeoBundle 'thinca/vim-ref'
+
 " Plugin reading finish
 filetype plugin indent on
 
@@ -230,6 +233,10 @@ let g:memolist_vimfiler = 1
 let g:memolist_path = "~/Dropbox/Data/Memolist"
 " }}}
 
+" {{{ vim-ref
+" nnoremap <silent>[unite]rphp      :<C-u>Ref
+" }}}
+
 " }}}
 
 " editing settings {{{
@@ -328,6 +335,8 @@ set ruler
 set showcmd
 
 set norestorescreen=off
+
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 
 " }}}
 
