@@ -388,4 +388,14 @@ syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
 syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 " }}}
 
+" reference settings {{{
+if neobundle#is_installed('vim-ref')
+  let g:ref_phpmanual_path = $HOME . "/.dotfiles/vim/references/phpmanual"
+
+  " カーソル上の単語でリファレンスを検索する
+  autocmd FileType php nnoremap <silent> <C-k> :execute 'Ref phpmanual ' . expand('<cword>') <CR>
+endif
+
+" }}}
+
 " }}}
