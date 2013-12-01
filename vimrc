@@ -89,6 +89,9 @@ NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
 NeoBundle 'kchmck/vim-coffee-script'
 
+" indent
+NeoBundle 'jiangmiao/simple-javascript-indenter'
+
 " tools
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'itchyny/lightline.vim'
