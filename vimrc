@@ -101,6 +101,10 @@ NeoBundle 'tobyS/pdv'
 
 " references
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'slim-template/vim-slim'
+
+" Quickrun
+NeoBundle 'thinca/vim-quickrun'
 
 " Plugin reading finish
 filetype plugin indent on
@@ -240,6 +244,35 @@ let g:memolist_path = "~/Dropbox/Data/Memolist"
 " nnoremap <silent>[unite]rphp      :<C-u>Ref
 " }}}
 
+" {{{ quickrun
+let g:quickrun_config = {}
+let g:quickrun_config.markdown = {
+      \ 'outputter' : 'null',
+      \ 'command'   : 'open',
+      \ 'cmdopt'    : '-a',
+      \ 'args'      : 'Kobito',
+      \ 'exec'      : '%c %o %a %s',
+      \ }
+map <Leader>qr :QuickRun<CR>
+
+" }}}
+
+" {{{ kobito
+function! s:open_kobito(...)
+    if a:0 == 0
+        call system('open -a Kobito '.expand('%:p'))
+    else
+        call system('open -a Kobito '.join(a:000, ' '))
+    endif
+endfunction
+
+" 引数のファイル(複数指定可)を Kobitoで開く
+" （引数無しのときはカレントバッファを開く
+command! -nargs=* Kobito call s:open_kobito(<f-args>)
+" Kobito を閉じる
+command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
+" Kobito にフォーカスを移す
+command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
 " }}}
 
 " editing settings {{{
@@ -274,6 +307,7 @@ if has("autocmd")
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType sass       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType slim       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
