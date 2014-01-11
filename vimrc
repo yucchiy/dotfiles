@@ -38,6 +38,10 @@ set ambiwidth=double
 
 set nobackup
 
+set clipboard+=unnamed
+set clipboard+=autoselect
+
+
 " }}}
 
 " plugins {{{
@@ -88,6 +92,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'cakebaker/scss-syntax.vim'
 
 " indent
 NeoBundle 'jiangmiao/simple-javascript-indenter'
@@ -105,6 +110,12 @@ NeoBundle 'slim-template/vim-slim'
 
 " Quickrun
 NeoBundle 'thinca/vim-quickrun'
+
+NeoBundle 'Shougo/context_filetype.vim'
+NeoBundle 'osyo-manga/vim-precious'
+
+" PHP
+" NeoBundle 'comeonly/php.vim-html-enhanced'
 
 " Plugin reading finish
 filetype plugin indent on
@@ -191,27 +202,6 @@ endif
 let g:neocomplcache_delimiter_patterns.vim = ['#']
 let g:neocomplcache_delimiter_patterns.cpp = ['::']
 
-" Enable omni completion.
-augroup MyVimrc
-  autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
-"  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCss
-  autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType php        setlocal omnifunc=phpcomplete#CompletePHP
-  autocmd FileType c          setlocal omnifunc=ccomplete#Complete
-  autocmd FileType ruby       setlocal omnifunc=rubycomplete#Complete
-augroup END
-
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c   = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
 " neocomplcache
 let g:neocomplcache_vim_completefuncs = {
       \ 'Unite' : 'unite#complete_source',
@@ -239,6 +229,37 @@ let g:memolist_vimfiler = 1
 
 let g:memolist_path = "~/Dropbox/Data/Memolist"
 " }}}
+
+" vim-precious {{{
+
+" filetype=help は insert 時のみ切り替わるように設定
+let g:precious_enable_switch_CursorMoved = {
+\   "help" : 0
+\}
+
+let g:context_filetype#filetypes = {
+            \ 'html': [
+            \   {
+            \    'start':
+            \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
+            \    'end': '</script>', 'filetype': 'javascript',
+            \   },
+            \   {
+            \    'start':
+            \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
+            \    'end': '</script>', 'filetype': 'coffee',
+            \   },
+            \   {
+            \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
+            \    'end': '</style>', 'filetype': 'css',
+            \   },
+            \   {
+            \    'start': '<?php\?',
+            \    'end': '?>', 'filetype': 'php',
+            \   }
+            \ ],}
+" }}}
+
 
 " {{{ vim-ref
 " nnoremap <silent>[unite]rphp      :<C-u>Ref
@@ -284,6 +305,7 @@ command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobi
 set autoindent
 " auto insert
 set smartindent
+
 set expandtab
 
 " how much does tab uses space when display
@@ -306,6 +328,7 @@ if has("autocmd")
   autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType scss       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sass       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType slim       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
