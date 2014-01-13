@@ -94,9 +94,6 @@ NeoBundle 'taichouchou2/html5.vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'cakebaker/scss-syntax.vim'
 
-" indent
-NeoBundle 'jiangmiao/simple-javascript-indenter'
-
 " tools
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'itchyny/lightline.vim'
@@ -116,6 +113,10 @@ NeoBundle 'osyo-manga/vim-precious'
 
 " PHP
 " NeoBundle 'comeonly/php.vim-html-enhanced'
+
+" JavaScript
+" NeoBundle "jiangmiao/simple-javascript-indenter"
+NeoBundle "pangloss/vim-javascript"
 
 " Plugin reading finish
 filetype plugin indent on
@@ -148,6 +149,9 @@ nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+
+call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.sass-cache\|bower_components\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+
 
 " }}}
 
@@ -396,8 +400,6 @@ set showcmd
 
 set norestorescreen=off
 
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-
 " }}}
 
 " }}}
@@ -408,6 +410,13 @@ syntax enable
 set t_Co=256
 set background=dark
 colorscheme base16-eighties
+
+set list
+
+highlight NonText cterm=underline ctermfg=darkgrey
+highlight SpecialKey cterm=underline ctermfg=darkgrey
+
+set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 
 " }}}
 
