@@ -150,7 +150,7 @@ nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
 
-call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.sass-cache\|bower_components\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.sass-cache\|\.tmp\|bower_components\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
 
 " }}}
