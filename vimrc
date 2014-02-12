@@ -59,6 +59,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Color scheme
 NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'reedes/vim-colors-pencil'
+NeoBundle 'jonathanfilip/vim-lucius'
 
 " Unite
 NeoBundle 'Shougo/unite-outline'
@@ -95,7 +97,8 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'cakebaker/scss-syntax.vim'
 
 " tools
-NeoBundle 'airblade/vim-gitgutter'
+" NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'mhinz/vim-signify'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
@@ -150,7 +153,7 @@ nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
 
-call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.sass-cache\|\.tmp\|bower_components\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.sass-cache\|\.tmp\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
 
 " }}}
@@ -170,12 +173,6 @@ nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
 " unite-help {{{
 
 nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
-
-" }}}
-
-" vim-gitgutter {{{
-
-let g:gitgutter_eager = 0
 
 " }}}
 
@@ -384,6 +381,7 @@ set nowrapscan
 
 " }}}
 
+
 " showing settings {{{
 
 set number
@@ -408,8 +406,10 @@ set norestorescreen=off
 
 syntax enable
 set t_Co=256
+"set background=light
+"colorscheme pencil
 set background=dark
-colorscheme base16-eighties
+colorscheme lucius
 
 set list
 
@@ -421,17 +421,7 @@ set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 " }}}
 
 " gui settings {{{
-set guifont=Ricty:h12
-
-" MacVimでアクティブ時と非アクティブ時の透明度を変える {{{
-
-augroup hack234
-  autocmd!
-  if has('mac')
-    autocmd FocusGained * set transparency=5  " アクティブ時の透過率
-    autocmd FocusLost * set transparency=30   " 非アクティブ時の透過率
-  endif
-augroup END
+set guifont=Ricty:h15
 
 "}}}
 
@@ -464,6 +454,11 @@ if neobundle#is_installed('vim-ref')
   " カーソル上の単語でリファレンスを検索する
   autocmd FileType php nnoremap <silent> <C-k> :execute 'Ref phpmanual ' . expand('<cword>') <CR>
 endif
+
+" }}}
+
+" mruby {{{
+autocmd BufNewFile,BufRead *.mrb set filetype=ruby
 
 " }}}
 
