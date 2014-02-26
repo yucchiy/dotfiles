@@ -121,6 +121,8 @@ NeoBundle 'osyo-manga/vim-precious'
 " NeoBundle "jiangmiao/simple-javascript-indenter"
 NeoBundle "pangloss/vim-javascript"
 
+NeoBundle "thinca/vim-localrc"
+
 " Plugin reading finish
 filetype plugin indent on
 
@@ -153,7 +155,7 @@ nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
 
-call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.sass-cache\|\.tmp\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
 
 " }}}
@@ -421,7 +423,8 @@ set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 " }}}
 
 " gui settings {{{
-set guifont=Ricty:h15
+
+set guifont=Ricty:h14
 
 "}}}
 
