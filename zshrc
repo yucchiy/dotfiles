@@ -31,7 +31,7 @@ if [ -n "$TMUX" ]; then
   alias pbcopy="reattach-to-user-namespace pbcopy"
 fi
 
-plugins=(git vagrant rbenv bundler)
+plugins=(git git-extra git-flow git-prompt git-remote-branch vagrant rbenv bundler)
 
 source $ZSH/oh-my-zsh.sh
 
