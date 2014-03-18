@@ -263,7 +263,6 @@ let g:context_filetype#filetypes = {
             \ ],}
 " }}}
 
-
 " {{{ vim-ref
 " nnoremap <silent>[unite]rphp      :<C-u>Ref
 " }}}
@@ -274,7 +273,7 @@ let g:quickrun_config.markdown = {
       \ 'outputter' : 'null',
       \ 'command'   : 'open',
       \ 'cmdopt'    : '-a',
-      \ 'args'      : 'Kobito',
+      \ 'args'      : 'Marked',
       \ 'exec'      : '%c %o %a %s',
       \ }
 map <Leader>qr :QuickRun<CR>
