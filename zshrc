@@ -18,7 +18,7 @@ case ${OSTYPE} in
         if [ -d /Applications/MacVim.app ]
         then
             [ ! -f $1 ] && touch $1
-            /Applications/MacVim.app/Contents/MacOS/Vim -g --remote-tab-silent $1
+            /Applications/MacVim.app/Contents/MacOS/Vim -g $1
         else
             vim $1
         fi
@@ -28,7 +28,7 @@ case ${OSTYPE} in
 esac
 
 if [ -n "$TMUX" ]; then
-  alias pbcopy="reattach-to-user-namespace pbcopy"
+    alias pbcopy="reattach-to-user-namespace pbcopy"
 fi
 
 plugins=(git git-extra git-flow git-prompt git-remote-branch vagrant rbenv bundler)

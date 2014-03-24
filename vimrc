@@ -72,6 +72,7 @@ NeoBundle 'Shougo/neocomplcache.vim'
 
 " NeoSnipet
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
@@ -209,6 +210,26 @@ let g:neocomplcache_delimiter_patterns.cpp = ['::']
 let g:neocomplcache_vim_completefuncs = {
       \ 'Unite' : 'unite#complete_source',
       \}
+" }}}
+
+" neosnippet {{{
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
 " }}}
 
 " lightline {{{
@@ -424,6 +445,10 @@ set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 " gui settings {{{
 
 set guifont=Ricty:h14
+
+if has('gui_running')
+  set transparency=10
+endif
 
 "}}}
 
