@@ -98,12 +98,12 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'cakebaker/scss-syntax.vim'
 
 " tools
-" NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tobyS/pdv'
+NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -122,6 +122,38 @@ NeoBundle 'osyo-manga/vim-precious'
 " NeoBundle "jiangmiao/simple-javascript-indenter"
 NeoBundle "pangloss/vim-javascript"
 
+" Ruby
+NeoBundleLazy 'edsono/vim-matchit', { 
+      \ 'autoload' : {
+      \   'filetypes': 'ruby',
+      \   'mappings' : ['nx', '%']
+      \   }
+      \ }
+
+NeoBundle 'tpope/vim-rails', { 
+      \ 'autoload' : {
+      \   'filetypes' : ['haml', 'ruby', 'eruby'] 
+      \   }
+      \ }
+
+NeoBundleLazy 'basyura/unite-rails', {
+      \ 'depends' : 'Shougo/unite.vim',
+      \ 'autoload' : {
+      \   'unite_sources' : [
+      \     'rails/bundle', 'rails/bundled_gem', 'rails/config',
+      \     'rails/controller', 'rails/db', 'rails/destroy', 'rails/features',
+      \     'rails/gem', 'rails/gemfile', 'rails/generate', 'rails/git', 'rails/helper',
+      \     'rails/heroku', 'rails/initializer', 'rails/javascript', 'rails/lib', 'rails/log',
+      \     'rails/mailer', 'rails/model', 'rails/rake', 'rails/route', 'rails/schema', 'rails/spec',
+      \     'rails/stylesheet', 'rails/view'
+      \   ]
+      \ }}
+
+NeoBundleLazy 'alpaca-tc/vim-endwise.git', {
+      \ 'autoload' : {
+      \   'insert' : 1,
+      \ }}
+
 NeoBundle "thinca/vim-localrc"
 
 " Plugin reading finish
@@ -129,202 +161,12 @@ filetype plugin indent on
 
 " Installation check
 NeoBundleCheck
-
-" }}}
-
-" plugin settings {{{
-
-" unite.vim {{{
-
-let g:unite_enable_start_insert = 1
-
-let g:unite_source_file_mru_filename_format = ''
-
-let g:unite_source_file_mru_limit = 100
-
-let g:unite_split_rule = 'rightbelow'
-
-let g:loaded_unite_source_bookmark = 1
-let g:loaded_unite_source_tab = 1
-let g:loaded_unite_source_window = 1
-
-noremap [unite] <Nop>
-map     <Leader>u [unite]
-
-nnoremap [unite]u :<C-u>Unite source<CR>
-nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
-nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
-nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
-
-call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
-
-
-" }}}
-
-" unite-outline {{{
-
-nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
-
-" }}}
-
-" unite-colorscheme {{{
-
-nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
-
-" }}}
-
-" unite-help {{{
-
-nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
-
-" }}}
-
-" neocomplcache.vim {{{
-
-let g:acp_enableAtStartup = 0
-
-let g:neocomplcache_enable_at_startup = 1
-
-let g:neocomplcache_enable_smart_case = 1
-
-let g:neocomplcache_enable_underbar_completion = 1
-
-let g:neocomplcache_min_syntax_length = 3
-
-if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
-endif
-
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-let g:neocomplcache_max_list = 300
-let g:neocomplcache_max_keyword_width = 20
-
-if !exists('g:neocomplcache_delimiter_patterns')
-  let g:neocomplcache_delimiter_patterns = {}
-endif
-let g:neocomplcache_delimiter_patterns.vim = ['#']
-let g:neocomplcache_delimiter_patterns.cpp = ['::']
-
-" neocomplcache
-let g:neocomplcache_vim_completefuncs = {
-      \ 'Unite' : 'unite#complete_source',
-      \}
-" }}}
-
-" neosnippet {{{
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-
-" }}}
-
-" lightline {{{
-
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
-set laststatus=2
-" }}}
-
-" memolist.vim {{{
-map <Leader>mn  :MemoNew<CR>
-map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
-nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
-map <Leader>mg  :MemoGrep<CR>                                                                       
-
-let g:memolist_memo_suffix = "markdown"
-let g:memolist_memo_date = "%Y-%m-%d %H:%M"
-let g:memolist_prompt_tags = 1 
-let g:memolist_vimfiler = 1 
-
-let g:memolist_path = "~/Dropbox/Data/Memolist"
-" }}}
-
-" vim-precious {{{
-
-" filetype=help は insert 時のみ切り替わるように設定
-let g:precious_enable_switch_CursorMoved = {
-\   "help" : 0
-\}
-
-let g:context_filetype#filetypes = {
-            \ 'html': [
-            \   {
-            \    'start':
-            \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
-            \    'end': '</script>', 'filetype': 'javascript',
-            \   },
-            \   {
-            \    'start':
-            \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
-            \    'end': '</script>', 'filetype': 'coffee',
-            \   },
-            \   {
-            \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
-            \    'end': '</style>', 'filetype': 'css',
-            \   },
-            \   {
-            \    'start': '<?php\?',
-            \    'end': '?>', 'filetype': 'php',
-            \   }
-            \ ],}
-" }}}
-
-" {{{ vim-ref
-" nnoremap <silent>[unite]rphp      :<C-u>Ref
-" }}}
-
-" {{{ quickrun
-let g:quickrun_config = {}
-let g:quickrun_config.markdown = {
-      \ 'outputter' : 'null',
-      \ 'command'   : 'open',
-      \ 'cmdopt'    : '-a',
-      \ 'args'      : 'Marked',
-      \ 'exec'      : '%c %o %a %s',
-      \ }
-map <Leader>qr :QuickRun<CR>
-
-" }}}
-
-" {{{ kobito
-function! s:open_kobito(...)
-    if a:0 == 0
-        call system('open -a Kobito '.expand('%:p'))
-    else
-        call system('open -a Kobito '.join(a:000, ' '))
-    endif
-endfunction
-
-" 引数のファイル(複数指定可)を Kobitoで開く
-" （引数無しのときはカレントバッファを開く
-command! -nargs=* Kobito call s:open_kobito(<f-args>)
-" Kobito を閉じる
-command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
-" Kobito にフォーカスを移す
-command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
 " }}}
 
 " editing settings {{{
 
 " indent settings {{{
-
 " http://qiita.com/items/c30367a3af5e418595e9
-
 set autoindent
 " auto insert
 set smartindent
@@ -384,48 +226,186 @@ autocmd InsertLeave * set nopaste
 
 " turn off auto comment insertion after enter
 autocmd FileType * set formatoptions-=ro
-
 " }}}
 
 " searching settings {{{
-
 " hit Cap letters even when searching with non Cap
 set ignorecase
-
 " distinct Cap and none Cap when searching with Cap and none combined
 set smartcase
-
 " instant search with enter after the word
 set incsearch
-
 " stop at the end of the file
 set nowrapscan
-
 " }}}
-
 
 " showing settings {{{
 
 set number
-
 set cursorline
-
 set showmatch
-
 set hidden
-
 set ruler
-
 set showcmd
-
 set norestorescreen=off
 
 " }}}
 
 " }}}
 
-" color settings  {{{
+" plugin settings {{{
 
+" unite.vim {{{
+let g:unite_enable_start_insert = 1
+
+let g:unite_source_file_mru_filename_format = ''
+
+let g:unite_source_file_mru_limit = 100
+
+let g:unite_split_rule = 'rightbelow'
+
+let g:loaded_unite_source_bookmark = 1
+let g:loaded_unite_source_tab = 1
+let g:loaded_unite_source_window = 1
+
+noremap [unite] <Nop>
+map     <Leader>u [unite]
+
+nnoremap [unite]u :<C-u>Unite source<CR>
+nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
+nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+
+call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+
+" unite-outline {{{
+nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
+" }}}
+
+" unite-colorscheme {{{
+nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
+" }}}
+
+" unite-help {{{
+nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
+" }}}
+
+" }}}
+
+" neocomplcache.vim {{{
+
+let g:acp_enableAtStartup = 0
+
+let g:neocomplcache_enable_at_startup = 1
+
+let g:neocomplcache_enable_smart_case = 1
+
+let g:neocomplcache_enable_underbar_completion = 1
+
+let g:neocomplcache_min_syntax_length = 3
+
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+let g:neocomplcache_max_list = 300
+let g:neocomplcache_max_keyword_width = 20
+
+if !exists('g:neocomplcache_delimiter_patterns')
+  let g:neocomplcache_delimiter_patterns = {}
+endif
+let g:neocomplcache_delimiter_patterns.vim = ['#']
+let g:neocomplcache_delimiter_patterns.cpp = ['::']
+
+" neocomplcache
+let g:neocomplcache_vim_completefuncs = {
+      \ 'Unite' : 'unite#complete_source',
+      \}
+" }}}
+
+" lightline {{{
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+set laststatus=2
+" }}}
+
+" memolist.vim {{{
+map <Leader>mn  :MemoNew<CR>
+map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
+nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
+map <Leader>mg  :MemoGrep<CR>
+
+let g:memolist_memo_suffix = "markdown"
+let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+let g:memolist_prompt_tags = 1 
+let g:memolist_vimfiler = 1 
+
+let g:memolist_path = "~/Dropbox/Data/Memolist"
+" }}}
+
+" vim-precious {{{
+" filetype=help は insert 時のみ切り替わるように設定
+let g:precious_enable_switch_CursorMoved = {
+\   "help" : 0
+\}
+
+let g:context_filetype#filetypes = {
+            \ 'html': [
+            \   {
+            \    'start':
+            \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
+            \    'end': '</script>', 'filetype': 'javascript',
+            \   },
+            \   {
+            \    'start':
+            \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
+            \    'end': '</script>', 'filetype': 'coffee',
+            \   },
+            \   {
+            \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
+            \    'end': '</style>', 'filetype': 'css',
+            \   },
+            \   {
+            \    'start': '<?php\?',
+            \    'end': '?>', 'filetype': 'php',
+            \   }
+            \ ],}
+" }}}
+
+" quickrun {{{
+let g:quickrun_config = {}
+let g:quickrun_config.markdown = {
+      \ 'outputter' : 'null',
+      \ 'command'   : 'open',
+      \ 'cmdopt'    : '-a',
+      \ 'args'      : 'Marked',
+      \ 'exec'      : '%c %o %a %s',
+      \ }
+map <Leader>qr :QuickRun<CR>
+" }}}
+
+" {{{ kobito
+function! s:open_kobito(...)
+    if a:0 == 0
+        call system('open -a Kobito '.expand('%:p'))
+    else
+        call system('open -a Kobito '.join(a:000, ' '))
+    endif
+endfunction
+
+" 引数のファイル(複数指定可)を Kobitoで開く
+" （引数無しのときはカレントバッファを開く
+command! -nargs=* Kobito call s:open_kobito(<f-args>)
+" Kobito を閉じる
+command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
+" Kobito にフォーカスを移す
+command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
+" }}}
+
+" color settings  {{{
 syntax enable
 set t_Co=256
 "set background=light
@@ -439,17 +419,39 @@ highlight NonText cterm=underline ctermfg=darkgrey
 highlight SpecialKey cterm=underline ctermfg=darkgrey
 
 set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
+" }}}
+
+" Ruby plugin settings {{{
+
+" vim-rails {{{
+let g:rails_default_file='config/database.yml'
+let g:rails_level = 4
+let g:rails_mappings = 1
+let g:rails_modelines = 0
+" }}}
+
+" unite-rails {{{
+function! UniteRailsSetting()
+    nnoremap <silent>[unite]rrv  :<C-u>Unite rails/view<CR>
+    nnoremap <silent>[unite]rrm  :<C-u>Unite rails/model<CR>
+    nnoremap <silent>[unite]rrc  :<C-u>Unite rails/controller<CR>
+    nnoremap <silent>[unite]rrs  :<C-u>Unite rails/spec<CR>
+    nnoremap <silent>[unite]rrd  :<C-u>Unite rails/db -input=migrate<CR>
+    nnoremap <silent>[unite]rrr  :<C-u>Unite rails/rake<CR>
+endfunction
+aug MyAutCmd
+    au User Rails call UniteRailsSetting()
+aug END
+" }}}
 
 " }}}
 
 " gui settings {{{
-
-set guifont=Ricty:h14
+set guifont=Ricty:h15
 
 if has('gui_running')
   set transparency=10
 endif
-
 "}}}
 
 " }}}
