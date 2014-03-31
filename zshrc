@@ -5,7 +5,6 @@ PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$HOME/.rbenv/shims:$PATH
 EDITOR='vim'
 TERM="xterm-256color"
 
-
 export PATH
 export EDITOR
 export LANG=ja_JP.UTF-8
@@ -23,7 +22,7 @@ case ${OSTYPE} in
             vim $1
         fi
     }
-    alias vim='macvim'
+#    alias vim='macvim'
     ;;
 esac
 
