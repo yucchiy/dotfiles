@@ -22,7 +22,7 @@ case ${OSTYPE} in
             vim $1
         fi
     }
-#    alias vim='macvim'
+    alias vim='macvim'
     ;;
 esac
 

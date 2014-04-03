@@ -41,7 +41,6 @@ set nobackup
 set clipboard+=unnamed
 set clipboard+=autoselect
 
-
 " }}}
 
 " plugins {{{
@@ -57,7 +56,6 @@ call neobundle#rc(expand('~/.dotfiles/vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Color scheme
-NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'jonathanfilip/vim-lucius'
@@ -96,10 +94,13 @@ NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'cakebaker/scss-syntax.vim'
+NeoBundle 'wolf-dog/nighted.vim'
 
 " tools
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'wolf-dog/lightline-nighted.vim'
+
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tobyS/pdv'
@@ -117,6 +118,7 @@ NeoBundle 'osyo-manga/vim-precious'
 
 " PHP
 " NeoBundle 'comeonly/php.vim-html-enhanced'
+NeoBundle 'evidens/vim-twig'
 
 " JavaScript
 " NeoBundle "jiangmiao/simple-javascript-indenter"
@@ -218,6 +220,7 @@ if has("autocmd")
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType twig       setlocal sw=2 sts=2 ts=2 et
 endif 
 
 
@@ -248,6 +251,13 @@ set hidden
 set ruler
 set showcmd
 set norestorescreen=off
+
+set list
+
+highlight NonText cterm=underline ctermfg=darkgrey
+highlight SpecialKey cterm=underline ctermfg=darkgrey
+set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
+
 
 " }}}
 
@@ -327,7 +337,7 @@ let g:neocomplcache_vim_completefuncs = {
 
 " lightline {{{
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'nighted',
       \ }
 set laststatus=2
 " }}}
@@ -413,12 +423,6 @@ set t_Co=256
 set background=dark
 colorscheme lucius
 
-set list
-
-highlight NonText cterm=underline ctermfg=darkgrey
-highlight SpecialKey cterm=underline ctermfg=darkgrey
-
-set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 " }}}
 
 " Ruby plugin settings {{{
@@ -469,13 +473,12 @@ endif
 " }}}
 
 " GUI settings {{{
-set guifont=Ricty:h15
+set guifont=Ricty:h14
 
 if has('gui_running')
-  set transparency=10
+  set transparency=5
 endif
 " }}}
-
 
 " other settings {{{
 

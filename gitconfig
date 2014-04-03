@@ -22,3 +22,6 @@
   br = branch
   find-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" --format=%H' _"
   show-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" -p' _"
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
