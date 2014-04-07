@@ -1,7 +1,7 @@
 ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
 ZSH_THEME="eastwood"
 
-PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$HOME/.rbenv/shims:$PATH
+PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$PATH
 EDITOR='vim'
 TERM="xterm-256color"
 

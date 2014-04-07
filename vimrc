@@ -70,7 +70,13 @@ NeoBundle 'Shougo/neocomplcache.vim'
 
 " NeoSnipet
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundleLazy 'Shougo/neosnippet', {
+      \ 'autoload' : {
+      \   'commands' : ['NeoSnippetEdit', 'NeoSnippetSource'],
+      \   'filetypes' : 'snippet',
+      \   'insert' : 1,
+      \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
+      \ }}
 
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
@@ -97,7 +103,7 @@ NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'wolf-dog/nighted.vim'
 
 " tools
-NeoBundle 'mhinz/vim-signify'
+" NeoBundle 'mhinz/vim-signify'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'wolf-dog/lightline-nighted.vim'
 
@@ -138,23 +144,15 @@ NeoBundle 'tpope/vim-rails', {
       \   }
       \ }
 
-NeoBundleLazy 'basyura/unite-rails', {
-      \ 'depends' : 'Shougo/unite.vim',
-      \ 'autoload' : {
-      \   'unite_sources' : [
-      \     'rails/bundle', 'rails/bundled_gem', 'rails/config',
-      \     'rails/controller', 'rails/db', 'rails/destroy', 'rails/features',
-      \     'rails/gem', 'rails/gemfile', 'rails/generate', 'rails/git', 'rails/helper',
-      \     'rails/heroku', 'rails/initializer', 'rails/javascript', 'rails/lib', 'rails/log',
-      \     'rails/mailer', 'rails/model', 'rails/rake', 'rails/route', 'rails/schema', 'rails/spec',
-      \     'rails/stylesheet', 'rails/view'
-      \   ]
-      \ }}
-
 NeoBundleLazy 'alpaca-tc/vim-endwise.git', {
       \ 'autoload' : {
       \   'insert' : 1,
       \ }}
+
+NeoBundleLazy 'thoughtbot/vim-rspec', {
+      \ 'depends'  : 'tpope/vim-dispatch',
+      \ 'autoload' : { 'filetypes' : ['ruby'] }
+      \ }
 
 NeoBundle "thinca/vim-localrc"
 
@@ -285,6 +283,7 @@ nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 
 call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
@@ -425,32 +424,19 @@ colorscheme lucius
 
 " }}}
 
-" Ruby plugin settings {{{
-
-" vim-rails {{{
-let g:rails_default_file='config/database.yml'
-let g:rails_level = 4
-let g:rails_mappings = 1
-let g:rails_modelines = 0
-" }}}
-
-" unite-rails {{{
-function! UniteRailsSetting()
-    nnoremap <silent>[unite]rrv  :<C-u>Unite rails/view<CR>
-    nnoremap <silent>[unite]rrm  :<C-u>Unite rails/model<CR>
-    nnoremap <silent>[unite]rrc  :<C-u>Unite rails/controller<CR>
-    nnoremap <silent>[unite]rrs  :<C-u>Unite rails/spec<CR>
-    nnoremap <silent>[unite]rrd  :<C-u>Unite rails/db -input=migrate<CR>
-    nnoremap <silent>[unite]rrr  :<C-u>Unite rails/rake<CR>
+" Rspec.vim {{{
+let s:bundle = neobundle#get('vim-rspec')
+function! s:bundle.hooks.on_source(bundle)
+   let g:rspec_command = 'Dispatch rspec {spec}'
 endfunction
-aug MyAutCmd
-    au User Rails call UniteRailsSetting()
-aug END
+
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
 " }}}
 
-" }}}
-
-" Neo Snippets {{{
+" nesnippets.vim {{{
 
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -464,6 +450,9 @@ imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)"
       \: "\<TAB>"
+
+let s:default_snippet = neobundle#get_neobundle_dir() . '/neosnippet/autoload/neosnippet/snippets'
+let g:neosnippet#snippets_directory = s:default_snippet . ',~/.vim/snippets'
 
 " For snippet_complete marker.
 if has('conceal')
