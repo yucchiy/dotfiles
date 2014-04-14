@@ -70,13 +70,6 @@ NeoBundle 'Shougo/neocomplcache.vim'
 
 " NeoSnipet
 NeoBundle 'Shougo/neosnippet'
-NeoBundleLazy 'Shougo/neosnippet', {
-      \ 'autoload' : {
-      \   'commands' : ['NeoSnippetEdit', 'NeoSnippetSource'],
-      \   'filetypes' : 'snippet',
-      \   'insert' : 1,
-      \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
-      \ }}
 
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
@@ -149,6 +142,14 @@ NeoBundleLazy 'alpaca-tc/vim-endwise.git', {
       \   'insert' : 1,
       \ }}
 
+NeoBundleLazy 'alpaca-tc/alpaca_tags', {
+      \ 'rev' : 'development',
+      \ 'depends': ['Shougo/vimproc', 'Shougo/unite.vim'],
+      \ 'autoload' : {
+      \   'commands' : ['Tags', 'TagsUpdate', 'TagsSet', 'TagsBundle', 'TagsCleanCache'],
+      \   'unite_sources' : ['tags']
+      \ }}
+
 NeoBundleLazy 'thoughtbot/vim-rspec', {
       \ 'depends'  : 'tpope/vim-dispatch',
       \ 'autoload' : { 'filetypes' : ['ruby'] }
@@ -203,6 +204,7 @@ if has("autocmd")
   autocmd FileType markdown   setlocal sw=2 sts=2 ts=2 et
   autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
   autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
@@ -436,6 +438,24 @@ map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
 " }}}
 
+" {{{ alpaca_tags
+let g:alpaca_update_tags_config = {
+      \ '_' : '-R --sort=yes --languages=-js,html,css',
+      \ 'ruby': '--languages=+Ruby',
+      \ }
+
+augroup AlpacaTags
+  autocmd!
+  if exists(':Tags')
+    autocmd BufWritePost * TagsUpdate ruby
+    autocmd BufWritePost Gemfile TagsBundle
+    autocmd BufEnter * TagsSet
+  endif
+augroup END
+
+nnoremap <silent>[unite]tt ':Unite tags -horizontal -buffer-name=tags -input='.expand("<cword>").'<CR>'
+" }}}
+
 " nesnippets.vim {{{
 
 " Plugin key-mappings.
@@ -451,9 +471,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)"
       \: "\<TAB>"
 
-let s:default_snippet = neobundle#get_neobundle_dir() . '/neosnippet/autoload/neosnippet/snippets'
-let g:neosnippet#snippets_directory = s:default_snippet . ',~/.vim/snippets'
-
 " For snippet_complete marker.
 if has('conceal')
   set conceallevel=2 concealcursor=i
@@ -466,6 +483,7 @@ set guifont=Ricty:h14
 
 if has('gui_running')
   set transparency=5
+  set visualbell t_vb=
 endif
 " }}}
 

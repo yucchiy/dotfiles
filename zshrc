@@ -10,6 +10,7 @@ export EDITOR
 export LANG=ja_JP.UTF-8
 export TERM
 export LESSCHARSET=UTF-8
+export DOCKER_HOST=tcp://localhost:4243
 
 case ${OSTYPE} in
     darwin*) # Mac OS X
