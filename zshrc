@@ -1,16 +1,17 @@
-ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
-ZSH_THEME="eastwood"
+export ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
+export ZSH_THEME="eastwood"
 
-PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$PATH
-EDITOR='vim'
-TERM="xterm-256color"
+export EDITOR='vim'
 
-export PATH
-export EDITOR
 export LANG=ja_JP.UTF-8
-export TERM
 export LESSCHARSET=UTF-8
-export DOCKER_HOST=tcp://localhost:4243
+
+export TERM="xterm-256color"
+
+export DOCKER_HOST=tcp://192.168.200.10:4243
+export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$PATH
+
+bindkey -e
 
 case ${OSTYPE} in
     darwin*) # Mac OS X
@@ -31,10 +32,15 @@ if [ -n "$TMUX" ]; then
     alias pbcopy="reattach-to-user-namespace pbcopy"
 fi
 
-plugins=(git git-extra git-flow git-prompt git-remote-branch vagrant rbenv bundler)
-
+# enable oh-my-zsh
+plugins=(brew bundler git git-extra rbenv vagrant z)
 source $ZSH/oh-my-zsh.sh
 
-bindkey -e
-
+# setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+_Z_CMD=j
+source /usr/local/etc/profile.d/z.sh
+precmd() {
+  _z --add "$(pwd -P)"
+}
