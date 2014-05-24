@@ -9,7 +9,7 @@ export LESSCHARSET=UTF-8
 export TERM="xterm-256color"
 
 export DOCKER_HOST=tcp://192.168.200.10:4243
-export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/bin:$PATH
+export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH
 
 bindkey -e
 
@@ -24,7 +24,7 @@ case ${OSTYPE} in
             vim $1
         fi
     }
-    alias vim='macvim'
+#    alias vim='macvim'
     ;;
 esac
 

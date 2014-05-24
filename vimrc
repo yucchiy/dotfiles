@@ -1,4 +1,4 @@
-" basic settings {{{
+" Basic settings {{{
 
 " highlight search result key mapping
 nnoremap <c-h><c-l> :set hlsearch! hlsearch?<cr>
@@ -40,10 +40,11 @@ set nobackup
 
 set clipboard+=unnamed
 set clipboard+=autoselect
-
 " }}}
 
-" plugins {{{
+" Plugin settings {{{
+
+" Installing plugins {{{
 
 " Plugin read start
 if has('vim_starting')
@@ -65,8 +66,8 @@ NeoBundle 'Shougo/unite-outline'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'Shougo/unite-help'
 
-" neocomplcache.vim
-NeoBundle 'Shougo/neocomplcache.vim'
+" NeoComplete/NeoComlcache
+NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 
 " NeoSnipet
 NeoBundle 'Shougo/neosnippet'
@@ -96,14 +97,17 @@ NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'wolf-dog/nighted.vim'
 
 " tools
-" NeoBundle 'mhinz/vim-signify'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'wolf-dog/lightline-nighted.vim'
-
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tobyS/pdv'
 NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'rizzatti/funcoo.vim'
+NeoBundle 'rizzatti/dash.vim'
+NeoBundle "thinca/vim-localrc"
+NeoBundle 'tyru/caw.vim'
+NeoBundle "jceb/vim-hier"
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -116,7 +120,6 @@ NeoBundle 'Shougo/context_filetype.vim'
 NeoBundle 'osyo-manga/vim-precious'
 
 " PHP
-" NeoBundle 'comeonly/php.vim-html-enhanced'
 NeoBundle 'evidens/vim-twig'
 
 " JavaScript
@@ -142,20 +145,15 @@ NeoBundleLazy 'alpaca-tc/vim-endwise.git', {
       \   'insert' : 1,
       \ }}
 
-NeoBundleLazy 'alpaca-tc/alpaca_tags', {
-      \ 'rev' : 'development',
-      \ 'depends': ['Shougo/vimproc', 'Shougo/unite.vim'],
-      \ 'autoload' : {
-      \   'commands' : ['Tags', 'TagsUpdate', 'TagsSet', 'TagsBundle', 'TagsCleanCache'],
-      \   'unite_sources' : ['tags']
-      \ }}
+NeoBundle "vim-ruby/vim-ruby.git"
+NeoBundle "tpope/vim-haml"
 
-NeoBundleLazy 'thoughtbot/vim-rspec', {
-      \ 'depends'  : 'tpope/vim-dispatch',
-      \ 'autoload' : { 'filetypes' : ['ruby'] }
-      \ }
+" C/C++
+NeoBundle 'osyo-manga/vim-reunions'
+NeoBundle 'osyo-manga/vim-marching'
+NeoBundle "osyo-manga/vim-watchdogs"
+NeoBundle "osyo-manga/shabadou.vim"
 
-NeoBundle "thinca/vim-localrc"
 
 " Plugin reading finish
 filetype plugin indent on
@@ -164,7 +162,241 @@ filetype plugin indent on
 NeoBundleCheck
 " }}}
 
-" editing settings {{{
+" Setting plugins {{{
+
+" unite.vim {{{
+let g:unite_enable_start_insert = 1
+
+let g:unite_source_file_mru_filename_format = ''
+
+let g:unite_source_file_mru_limit = 100
+
+let g:unite_split_rule = 'rightbelow'
+
+let g:loaded_unite_source_bookmark = 1
+let g:loaded_unite_source_tab = 1
+let g:loaded_unite_source_window = 1
+
+noremap [unite] <Nop>
+map     <Leader>u [unite]
+
+nnoremap [unite]u :<C-u>Unite source<CR>
+nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
+nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
+
+call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+
+" unite-outline {{{
+nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
+" }}}
+
+" unite-colorscheme {{{
+nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
+" }}}
+
+" unite-help {{{
+nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
+" }}}
+
+" }}}
+
+" NeoComplete/NeoComplCache{{{
+if neobundle#is_installed('neocomplete')
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns._ = '\h\w*'
+
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+      let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+  let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+
+  inoremap <expr><C-g>     neocomplete#undo_completion()
+  inoremap <expr><C-l>     neocomplete#complete_common_string()
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+elseif neobundle#is_installed('neocomplcache')
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_ignore_case = 1
+  let g:neocomplcache_enable_smart_case = 1
+  if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+  endif
+  let g:neocomplcache_keyword_patterns._ = '\h\w*'
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+endif
+" }}}
+
+" lightline {{{
+let g:lightline = {
+      \ 'colorscheme': 'nighted',
+      \ }
+set laststatus=2
+" }}}
+
+" memolist.vim {{{
+map <Leader>mn  :MemoNew<CR>
+map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
+nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
+map <Leader>mg  :MemoGrep<CR>
+
+let g:memolist_memo_suffix = "markdown"
+let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+let g:memolist_prompt_tags = 1 
+let g:memolist_vimfiler = 1 
+
+let g:memolist_path = "~/Dropbox/Data/Memolist"
+" }}}
+
+" vim-precious {{{
+" filetype=help は insert 時のみ切り替わるように設定
+let g:precious_enable_switch_CursorMoved = {
+\   "help" : 0
+\}
+
+let g:context_filetype#filetypes = {
+            \ 'html': [
+            \   {
+            \    'start':
+            \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
+            \    'end': '</script>', 'filetype': 'javascript',
+            \   },
+            \   {
+            \    'start':
+            \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
+            \    'end': '</script>', 'filetype': 'coffee',
+            \   },
+            \   {
+            \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
+            \    'end': '</style>', 'filetype': 'css',
+            \   },
+            \   {
+            \    'start': '<?php\?',
+            \    'end': '?>', 'filetype': 'php',
+            \   }
+            \ ],}
+" }}}
+
+" quickrun {{{
+let g:quickrun_config = {
+            \ "cpp/watchdogs_checker" : {
+            \     "type" : "watchdogs_checker/clang++",
+            \ },
+            \
+            \ "watchdogs_checker/g++" : {
+            \     "cmdopt" : "-Wall",
+            \ },
+            \
+            \ "watchdogs_checker/clang++" : {
+            \     "cmdopt" : "-Wall",
+            \ },
+            \ }
+let g:quickrun_config._ = {
+      \ "outputter" : "error",
+      \ "outputter/error/success" : "buffer",
+      \ "outputter/error/error"   : "quickfix",
+      \ "outputter/buffer/split" : ":botright 8sp",
+      \ "outputter/quickfix/open_cmd" : "copen",
+      \ "runner" : "vimproc",
+      \ "runner/vimproc/updatetime" : 500
+      \ }
+let g:quickrun_config.cpp = {
+      \ "type" : "cpp/clang++",
+      \ "cmdopt" : "`pkg-config --cflags opencv --libs opencv --cflags flann --libs flann`",
+      \ }
+let g:quickrun_config.markdown = {
+      \ 'outputter' : 'null',
+      \ 'command'   : 'open',
+      \ 'cmdopt'    : '-a',
+      \ 'args'      : 'Marked',
+      \ 'exec'      : '%c %o %a %s',
+      \ }
+map <Leader>qr :QuickRun<CR>
+" }}}
+
+" caw.vim {{{
+nmap <Leader>ct <Plug>(caw:I:toggle)
+vmap <Leader>ct <Plug>(caw:I:toggle)
+
+nmap <Leader>co <Plug>(caw:I:uncomment)
+vmap <Leader>co <Plug>(caw:I:uncomment)
+" }}}
+
+" marching.vim {{{
+let g:marching_clang_command = "/usr/bin/clang"
+
+let g:marching_clang_command_option="-std=c++1y"
+
+let g:marching_include_paths = [
+      \ "/usr/bin/include",
+      \ "/usr/local/include"
+      \ ]
+
+let g:marching_enable_neocomplete = 1
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+let g:neocomplete#force_omni_input_patterns.cpp =
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+
+" オムニ補完時に補完ワードを挿入したくない場合
+imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+
+" キャッシュを削除してからオム二補完を行う
+imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+
+let g:marching_backend = "sync_clang_command"
+" }}}
+
+" neosnippet {{{
+
+" 現在の filetype のスニペットを編集する為のキーマッピング
+" こうしておくことでサッと編集や追加などを行うことができる
+" 以下の設定では新しいタブでスニペットファイルを開く
+nnoremap <Space>ns :execute "tabnew\|:NeoSnippetEdit ".&filetype<CR>
+
+" スニペットファイルの保存ディレクトリを設定
+let g:neosnippet#snippets_directory = "~/.vim/bundle/neosnippet-snippets/neosnippets"
+" }}}
+
+" }}}
+
+" }}}
+
+" GUI settings {{{
+
+" Font settings {{{
+set guifont=Ricty:h14
+
+if has('gui_running')
+  set transparency=5
+  set visualbell t_vb=
+endif
+" }}}
+
+" color settings {{{
+syntax enable
+set t_Co=256
+"set background=light
+"colorscheme pencil
+set background=dark
+colorscheme lucius
+" }}}
+
+" }}}
+
+" Editing settings {{{
 
 " indent settings {{{
 " http://qiita.com/items/c30367a3af5e418595e9
@@ -243,7 +475,6 @@ set nowrapscan
 " }}}
 
 " showing settings {{{
-
 set number
 set cursorline
 set showmatch
@@ -257,240 +488,15 @@ set list
 highlight NonText cterm=underline ctermfg=darkgrey
 highlight SpecialKey cterm=underline ctermfg=darkgrey
 set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
-
-
 " }}}
 
 " }}}
 
-" plugin settings {{{
+" Language settings {{{
 
-" unite.vim {{{
-let g:unite_enable_start_insert = 1
+" HTML5 {{{
 
-let g:unite_source_file_mru_filename_format = ''
-
-let g:unite_source_file_mru_limit = 100
-
-let g:unite_split_rule = 'rightbelow'
-
-let g:loaded_unite_source_bookmark = 1
-let g:loaded_unite_source_tab = 1
-let g:loaded_unite_source_window = 1
-
-noremap [unite] <Nop>
-map     <Leader>u [unite]
-
-nnoremap [unite]u :<C-u>Unite source<CR>
-nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
-nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
-nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
-nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
-
-call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
-
-" unite-outline {{{
-nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
-" }}}
-
-" unite-colorscheme {{{
-nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
-" }}}
-
-" unite-help {{{
-nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
-" }}}
-
-" }}}
-
-" neocomplcache.vim {{{
-
-let g:acp_enableAtStartup = 0
-
-let g:neocomplcache_enable_at_startup = 1
-
-let g:neocomplcache_enable_smart_case = 1
-
-let g:neocomplcache_enable_underbar_completion = 1
-
-let g:neocomplcache_min_syntax_length = 3
-
-if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
-endif
-
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-let g:neocomplcache_max_list = 300
-let g:neocomplcache_max_keyword_width = 20
-
-if !exists('g:neocomplcache_delimiter_patterns')
-  let g:neocomplcache_delimiter_patterns = {}
-endif
-let g:neocomplcache_delimiter_patterns.vim = ['#']
-let g:neocomplcache_delimiter_patterns.cpp = ['::']
-
-" neocomplcache
-let g:neocomplcache_vim_completefuncs = {
-      \ 'Unite' : 'unite#complete_source',
-      \}
-" }}}
-
-" lightline {{{
-let g:lightline = {
-      \ 'colorscheme': 'nighted',
-      \ }
-set laststatus=2
-" }}}
-
-" memolist.vim {{{
-map <Leader>mn  :MemoNew<CR>
-map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
-nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
-map <Leader>mg  :MemoGrep<CR>
-
-let g:memolist_memo_suffix = "markdown"
-let g:memolist_memo_date = "%Y-%m-%d %H:%M"
-let g:memolist_prompt_tags = 1 
-let g:memolist_vimfiler = 1 
-
-let g:memolist_path = "~/Dropbox/Data/Memolist"
-" }}}
-
-" vim-precious {{{
-" filetype=help は insert 時のみ切り替わるように設定
-let g:precious_enable_switch_CursorMoved = {
-\   "help" : 0
-\}
-
-let g:context_filetype#filetypes = {
-            \ 'html': [
-            \   {
-            \    'start':
-            \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
-            \    'end': '</script>', 'filetype': 'javascript',
-            \   },
-            \   {
-            \    'start':
-            \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
-            \    'end': '</script>', 'filetype': 'coffee',
-            \   },
-            \   {
-            \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
-            \    'end': '</style>', 'filetype': 'css',
-            \   },
-            \   {
-            \    'start': '<?php\?',
-            \    'end': '?>', 'filetype': 'php',
-            \   }
-            \ ],}
-" }}}
-
-" quickrun {{{
-let g:quickrun_config = {}
-let g:quickrun_config.markdown = {
-      \ 'outputter' : 'null',
-      \ 'command'   : 'open',
-      \ 'cmdopt'    : '-a',
-      \ 'args'      : 'Marked',
-      \ 'exec'      : '%c %o %a %s',
-      \ }
-map <Leader>qr :QuickRun<CR>
-" }}}
-
-" {{{ kobito
-function! s:open_kobito(...)
-    if a:0 == 0
-        call system('open -a Kobito '.expand('%:p'))
-    else
-        call system('open -a Kobito '.join(a:000, ' '))
-    endif
-endfunction
-
-" 引数のファイル(複数指定可)を Kobitoで開く
-" （引数無しのときはカレントバッファを開く
-command! -nargs=* Kobito call s:open_kobito(<f-args>)
-" Kobito を閉じる
-command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
-" Kobito にフォーカスを移す
-command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
-" }}}
-
-" color settings  {{{
-syntax enable
-set t_Co=256
-"set background=light
-"colorscheme pencil
-set background=dark
-colorscheme lucius
-
-" }}}
-
-" Rspec.vim {{{
-let s:bundle = neobundle#get('vim-rspec')
-function! s:bundle.hooks.on_source(bundle)
-   let g:rspec_command = 'Dispatch rspec {spec}'
-endfunction
-
-map <Leader>rt :call RunCurrentSpecFile()<CR>
-map <Leader>rs :call RunNearestSpec()<CR>
-map <Leader>rl :call RunLastSpec()<CR>
-map <Leader>ra :call RunAllSpecs()<CR>
-" }}}
-
-" {{{ alpaca_tags
-let g:alpaca_update_tags_config = {
-      \ '_' : '-R --sort=yes --languages=-js,html,css',
-      \ 'ruby': '--languages=+Ruby',
-      \ }
-
-augroup AlpacaTags
-  autocmd!
-  if exists(':Tags')
-    autocmd BufWritePost * TagsUpdate ruby
-    autocmd BufWritePost Gemfile TagsBundle
-    autocmd BufEnter * TagsSet
-  endif
-augroup END
-
-nnoremap <silent>[unite]tt ':Unite tags -horizontal -buffer-name=tags -input='.expand("<cword>").'<CR>'
-" }}}
-
-" nesnippets.vim {{{
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)"
-      \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)"
-      \: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-
-" }}}
-
-" GUI settings {{{
-set guifont=Ricty:h14
-
-if has('gui_running')
-  set transparency=5
-  set visualbell t_vb=
-endif
-" }}}
-
-" other settings {{{
-
-" html5 {{{
-" HTML 5 tags
+" HTML5 Tags {{{ 
 syn keyword htmlTagName contained article aside audio bb canvas command
 syn keyword htmlTagName contained datalist details dialog embed figure
 syn keyword htmlTagName contained header hgroup keygen mark meter nav output
@@ -507,19 +513,19 @@ syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
 syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 " }}}
 
-" reference settings {{{
-if neobundle#is_installed('vim-ref')
-  let g:ref_phpmanual_path = $HOME . "/.dotfiles/vim/references/phpmanual"
+" }}}
 
-  " カーソル上の単語でリファレンスを検索する
-  autocmd FileType php nnoremap <silent> <C-k> :execute 'Ref phpmanual ' . expand('<cword>') <CR>
-endif
+" C++ {{{
+
+" Include Path
+augroup cpp-path
+  autocmd!
+  autocmd FileType cpp setlocal path=.,./libEM/include,./libmil/include,./libsurf/include,/usr/include,/usr/local/include,/opt/local/include
+augroup END
+" }}}
+
+" Ruby {{{
+" }}}
 
 " }}}
 
-" mruby {{{
-autocmd BufNewFile,BufRead *.mrb set filetype=ruby
-
-" }}}
-
-" }}}
