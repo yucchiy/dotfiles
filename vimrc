@@ -338,7 +338,9 @@ let g:marching_clang_command_option="-std=c++1y"
 
 let g:marching_include_paths = [
       \ "/usr/bin/include",
-      \ "/usr/local/include"
+      \ "/usr/local/include",
+      \ "./include",
+      \ "../include"
       \ ]
 
 let g:marching_enable_neocomplete = 1
