@@ -4,3 +4,6 @@
 [submodule "plugins/oh-my-zsh"]
 	path = plugins/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "plugins/zsh-notify"]
+	path = plugins/zsh-notify
+	url = https://github.com/marzocchi/zsh-notify.git

@@ -11,6 +11,10 @@ export TERM="xterm-256color"
 export DOCKER_HOST=tcp://192.168.200.10:4243
 export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH
 
+# for zsh-notify
+export SYS_NOTIFIER="/usr/local/bin/terminal-notifier"
+export NOTIFY_COMMAND_COMPLETE_TIMEOUT=10
+
 bindkey -e
 
 case ${OSTYPE} in
