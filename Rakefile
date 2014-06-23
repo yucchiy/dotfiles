@@ -3,6 +3,7 @@ require 'fileutils'
 
 desc "Hook our dotfiles into system-standard positions."
 task :install => [:submodule_init, :submodules] do
+
   puts "Welcome to yucchiy's Dotfiles Installation. "
 
   install_homebrew if RUBY_PLATFORM.downcase.include?("darwin")
@@ -22,7 +23,7 @@ task :submodules do
     puts "Downloading submodules...please wait "
 
     run %{
-      cd $HOME/.yadr
+      cd $HOME/.dotfiles
       git submodule update --recursive
       git clean -df
     }
@@ -78,9 +79,6 @@ def link_file(files, method = :symlink)
       run %{ cp -f "#{source}" "#{target}" }
     end
 
-    # Temporary solution until we find a way to allow customization
-    # This modifies zshrc to load all of yadr's zsh extensions.
-    # Eventually yadr's zsh extensions should be ported to prezto modules.
     run %{ source "$HOME/.zshrc" } if file == "zshrc"
   end
 end
