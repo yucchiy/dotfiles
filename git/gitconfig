@@ -2,8 +2,8 @@
     protocol = https
 
 [user]
-    name = AUTHORNAME
-    email = AUTHOREMAIL
+    name = Yuichiro Mukai
+    email = y.iky917@gmail.com
 
 [color]
     diff = auto
