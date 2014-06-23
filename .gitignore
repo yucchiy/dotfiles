@@ -1,3 +1,4 @@
-vim/bundle/
-vim/references/
-vim/.netrwhist
+*.swp
+*.swo
+vim/vim/bundle/
+

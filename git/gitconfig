@@ -1,0 +1,28 @@
+[hub]
+    protocol = https
+
+[user]
+    name = AUTHORNAME
+    email = AUTHOREMAIL
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = true
+
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = vim
+
+[alias]
+    graph = "log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'"
+    gr = "log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'"
+    ci = commit -v
+    st = status
+    df = diff
+    dfc = diff --cached
+    co = checkout
+    br = branch
+    find-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" --format=%H' _"
+    show-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" -p' _"

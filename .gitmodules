@@ -1,9 +1,9 @@
-[submodule "vim/bundle/neobundle.vim"]
-	path = vim/bundle/neobundle.vim
-	url = git://github.com/Shougo/neobundle.vim
 [submodule "plugins/oh-my-zsh"]
 	path = plugins/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "plugins/zsh-notify"]
 	path = plugins/zsh-notify
 	url = https://github.com/marzocchi/zsh-notify.git
+[submodule "vim/bundle/neobundle.vim"]
+	path = vim/bundle/neobundle.vim
+	url = https://github.com/Shougo/neobundle.vim
