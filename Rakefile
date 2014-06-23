@@ -7,8 +7,8 @@ task :install => [:submodule_init, :submodules] do
   puts "Welcome to yucchiy's Dotfiles Installation. "
 
   install_homebrew if RUBY_PLATFORM.downcase.include?("darwin")
-  file_operation(Dir.glob('git/*')) if want_to_install?('git configs (gitignore_global, gitconfig)')
-  file_operation(Dir.glob('tmux/*')) if want_to_install?('tmux config')
+  link_file(Dir.glob('git/*')) if want_to_install?('git configs (gitignore_global, gitconfig)')
+  link_file(Dir.glob('tmux/*')) if want_to_install?('tmux config')
 end
 
 task :submodule_init do
