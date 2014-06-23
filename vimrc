@@ -150,9 +150,6 @@ NeoBundle "tpope/vim-haml"
 
 " C/C++
 NeoBundle 'osyo-manga/vim-reunions'
-NeoBundle 'osyo-manga/vim-marching'
-NeoBundle "osyo-manga/vim-watchdogs"
-NeoBundle "osyo-manga/shabadou.vim"
 
 
 " Plugin reading finish
@@ -287,19 +284,8 @@ let g:context_filetype#filetypes = {
 " }}}
 
 " quickrun {{{
-let g:quickrun_config = {
-            \ "cpp/watchdogs_checker" : {
-            \     "type" : "watchdogs_checker/clang++",
-            \ },
-            \
-            \ "watchdogs_checker/g++" : {
-            \     "cmdopt" : "-Wall",
-            \ },
-            \
-            \ "watchdogs_checker/clang++" : {
-            \     "cmdopt" : "-Wall",
-            \ },
-            \ }
+let g:quickrun_config = {}
+
 let g:quickrun_config._ = {
       \ "outputter" : "error",
       \ "outputter/error/success" : "buffer",
@@ -308,10 +294,6 @@ let g:quickrun_config._ = {
       \ "outputter/quickfix/open_cmd" : "copen",
       \ "runner" : "vimproc",
       \ "runner/vimproc/updatetime" : 500
-      \ }
-let g:quickrun_config.cpp = {
-      \ "type" : "cpp/clang++",
-      \ "cmdopt" : "`pkg-config --cflags opencv --libs opencv --cflags flann --libs flann`",
       \ }
 let g:quickrun_config.markdown = {
       \ 'outputter' : 'null',
@@ -329,36 +311,6 @@ vmap <Leader>ct <Plug>(caw:I:toggle)
 
 nmap <Leader>co <Plug>(caw:I:uncomment)
 vmap <Leader>co <Plug>(caw:I:uncomment)
-" }}}
-
-" marching.vim {{{
-let g:marching_clang_command = "/usr/bin/clang"
-
-let g:marching_clang_command_option="-std=c++1y"
-
-let g:marching_include_paths = [
-      \ "/usr/bin/include",
-      \ "/usr/local/include",
-      \ "./include",
-      \ "../include"
-      \ ]
-
-let g:marching_enable_neocomplete = 1
-
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-let g:neocomplete#force_omni_input_patterns.cpp =
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
-" オムニ補完時に補完ワードを挿入したくない場合
-imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-
-" キャッシュを削除してからオム二補完を行う
-imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
-
-let g:marching_backend = "sync_clang_command"
 " }}}
 
 " neosnippet {{{
@@ -522,7 +474,7 @@ syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 " Include Path
 augroup cpp-path
   autocmd!
-  autocmd FileType cpp setlocal path=.,./libEM/include,./libmil/include,./libsurf/include,/usr/include,/usr/local/include,/opt/local/include
+  autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/opt/local/include
 augroup END
 " }}}
 
