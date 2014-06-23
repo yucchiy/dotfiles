@@ -21,7 +21,6 @@ install reattach-to-user-namespace
 install go
 install hg
 install npm
-install haskell-platform
 install peco
 
 cask install dash
