@@ -35,9 +35,8 @@ if [ -n "$TMUX" ]; then
 fi
 
 # enable oh-my-zsh
-plugins=(brew bundler git git-extra rbenv vagrant z)
+plugins=(brew bundler git git-extra rbenv vagrant)
 source $ZSH/oh-my-zsh.sh
 
 # setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-

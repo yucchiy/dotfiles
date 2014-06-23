@@ -21,7 +21,6 @@ install reattach-to-user-namespace
 install go
 install hg
 install npm
-install peco
 
 cask install dash
 cask install phpstorm
@@ -39,3 +38,5 @@ cask install the-unarchiver
 cask install skype
 cask install atom
 cask install livereload
+cask install yorufukurou
+cask install quicksilver

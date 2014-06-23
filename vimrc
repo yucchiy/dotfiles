@@ -60,6 +60,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'jonathanfilip/vim-lucius'
+NeoBundle 'brendonrapp/smyck-vim'
 
 " Unite
 NeoBundle 'Shougo/unite-outline'
