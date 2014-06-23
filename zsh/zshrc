@@ -15,8 +15,6 @@ export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin
 export SYS_NOTIFIER="/usr/local/bin/terminal-notifier"
 export NOTIFY_COMMAND_COMPLETE_TIMEOUT=10
 
-bindkey -e
-
 case ${OSTYPE} in
     darwin*) # Mac OS X
         function macvim () {
@@ -43,8 +41,3 @@ source $ZSH/oh-my-zsh.sh
 # setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-_Z_CMD=j
-source /usr/local/etc/profile.d/z.sh
-precmd() {
-  _z --add "$(pwd -P)"
-}

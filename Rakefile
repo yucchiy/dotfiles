@@ -9,6 +9,13 @@ task :install => [:submodule_init, :submodules] do
   install_homebrew if RUBY_PLATFORM.downcase.include?("darwin")
   link_file(Dir.glob('git/*')) if want_to_install?('git configs (gitignore_global, gitconfig)')
   link_file(Dir.glob('tmux/*')) if want_to_install?('tmux config')
+  link_file(Dir.glob('zsh/*')) if want_to_install?('zshrc')
+
+  if want_to_install?('vim configuration (highly recommended)')
+    link_file(Dir.glob('{vim,vimrc}'))
+  end
+  
+  puts "All installed!"
 end
 
 task :submodule_init do
