@@ -75,11 +75,11 @@ NeoBundle 'Shougo/neosnippet'
 
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
-            \       'windows' : 'echo "Please build vimproc manually."',
+            \       'windows' : 'make -f make_mingw32.make',
             \       'cygwin'  : 'make -f make_cygwin.mak',
             \       'mac'     : 'make -f make_mac.mak',
             \       'unix'    : 'make -f make_unix.mak',
-            \   }
+            \   },
             \ }
 
 NeoBundleLazy 'Shougo/unite.vim', {
@@ -481,6 +481,25 @@ augroup END
 
 " Ruby {{{
 " }}}
+
+function! s:unite_gitignore_source()
+  let sources = []
+  if filereadable('./.gitignore')
+    for file in readfile('./.gitignore')
+      if file !~ "^#\\|^\s\*$"
+        call add(sources, file)
+      endif
+    endfor
+  endif
+
+  if isdirectory('./.git')
+    call add(sources, '.git')
+  endif
+  let pattern = escape(join(sources, '|'), './|')
+  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+  call unite#custom#source('grep', 'ignore_pattern', pattern)
+endfunction
+call s:unite_gitignore_source()
 
 " }}}
 
