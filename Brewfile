@@ -40,3 +40,5 @@ cask install atom
 cask install livereload
 cask install yorufukurou
 cask install quicksilver
+cask install macvim
+cask install vlc
