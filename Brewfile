@@ -5,7 +5,6 @@ tap homebrew/versions
 tap phinze/homebrew-cask
 tap homebrew/binary
 tap josegonzalez/php
-tap peco/peco
 
 install brew-cask
 install zsh
@@ -21,6 +20,8 @@ install reattach-to-user-namespace
 install go
 install hg
 install npm
+install docker
+install mysql55 --client-only
 
 cask install dash
 cask install phpstorm
@@ -42,3 +43,4 @@ cask install yorufukurou
 cask install quicksilver
 cask install macvim
 cask install vlc
+cask install gyazo
