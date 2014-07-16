@@ -17,6 +17,10 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 plugins=(brew bundler git git-extra rbenv vagrant)
 source $ZSH/oh-my-zsh.sh
 
+# for golang
+export GOPATH=~/.go
+export PATH=$PATH:$GOPATH/bin
+
 # for zsh-notify
 export SYS_NOTIFIER="/usr/local/bin/terminal-notifier"
 export NOTIFY_COMMAND_COMPLETE_TIMEOUT=10
@@ -31,3 +35,14 @@ export DOCKER_HOST=tcp://192.168.200.10:4243
 alias bi="bundle install"
 alias be="bundle exec"
 
+# for MacVim
+case ${OSTYPE} in
+    darwin*)
+        function macvim() {
+        if [ -d /Applications/MacVim.app ]
+        then
+            [ ! -f $1 ] && touch $1
+            open -a MacVim $1
+        fi
+    }
+esac
