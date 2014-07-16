@@ -10,15 +10,20 @@ export TERM="xterm-256color"
 
 export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH
 
+
 # setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+setopt no_flow_control
+
+for f (~/.zsh/sources/peco/*) source "${f}"
 
 # enable oh-my-zsh
 plugins=(brew bundler git git-extra rbenv vagrant)
 source $ZSH/oh-my-zsh.sh
 
 # for golang
-export GOPATH=~/.go
+export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
 
 # for zsh-notify
@@ -31,9 +36,6 @@ fi
 
 export DOCKER_HOST=tcp://192.168.200.10:4243
 
-# alias
-alias bi="bundle install"
-alias be="bundle exec"
 
 # for MacVim
 case ${OSTYPE} in
@@ -46,3 +48,13 @@ case ${OSTYPE} in
         fi
     }
 esac
+
+# key-bindings
+bindkey '^h' peco-select-history
+bindkey '^s' peco-src
+
+# alias
+alias bi="bundle install"
+alias be="bundle exec"
+alias pk="peco-pkill"
+alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
