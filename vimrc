@@ -335,7 +335,7 @@ let g:neosnippet#snippets_directory = "~/.vim/bundle/neosnippet-snippets/neosnip
 set guifont=Ricty:h14
 
 if has('gui_running')
-  set transparency=5
+  set transparency=10
   set visualbell t_vb=
 endif
 " }}}
