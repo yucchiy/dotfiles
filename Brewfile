@@ -22,6 +22,12 @@ install hg
 install npm
 install docker
 install mysql55 --client-only
+install rbenv
+install ruby-build
+install rbenv-gemset
+install rbenv-gem-rehash
+install readline
+install gnuplot
 
 cask install dash
 cask install phpstorm
