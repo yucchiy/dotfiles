@@ -12,7 +12,7 @@
     ui = true
 
 [core]
-    excludesfile = ~/.gitignore_global
+	excludesfile = /Users/yucchiy/.gitignore_global
     editor = vim
 
 [alias]
@@ -26,6 +26,13 @@
     br = branch
     find-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" --format=%H' _"
     show-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" -p' _"
+    delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
 
 [ghq]
     root = ~/src
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.5.2/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
