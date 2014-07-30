@@ -21,7 +21,7 @@ install go
 install hg
 install npm
 install docker
-install mysql55 --client-only
+install mysql
 install rbenv
 install ruby-build
 install rbenv-gemset
@@ -50,3 +50,4 @@ cask install quicksilver
 cask install macvim
 cask install vlc
 cask install gyazo
+cask install sublime-text

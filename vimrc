@@ -153,6 +153,7 @@ NeoBundle "tpope/vim-haml"
 NeoBundle 'osyo-manga/vim-reunions'
 
 
+
 " Plugin reading finish
 filetype plugin indent on
 
@@ -300,7 +301,7 @@ let g:quickrun_config.markdown = {
       \ 'outputter' : 'null',
       \ 'command'   : 'open',
       \ 'cmdopt'    : '-a',
-      \ 'args'      : 'Marked',
+      \ 'args'      : 'Marked\ 2',
       \ 'exec'      : '%c %o %a %s',
       \ }
 map <Leader>qr :QuickRun<CR>
@@ -335,7 +336,7 @@ let g:neosnippet#snippets_directory = "~/.vim/bundle/neosnippet-snippets/neosnip
 set guifont=Ricty:h14
 
 if has('gui_running')
-  set transparency=10
+  set transparency=0
   set visualbell t_vb=
 endif
 " }}}
@@ -348,6 +349,8 @@ set t_Co=256
 set background=dark
 colorscheme lucius
 " }}}
+
+let g:indent_guides_enable_on_vim_startup = 1
 
 " }}}
 
