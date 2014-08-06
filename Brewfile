@@ -52,3 +52,4 @@ cask install vlc
 cask install gyazo
 cask install sublime-text
 cask install mactex
+cask install android-studio
