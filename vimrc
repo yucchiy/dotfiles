@@ -94,12 +94,11 @@ NeoBundleLazy 'Shougo/unite.vim', {
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'claco/jasmine.vim'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'wolf-dog/nighted.vim'
 
 " tools
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'wolf-dog/lightline-nighted.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tobyS/pdv'
@@ -109,6 +108,7 @@ NeoBundle 'rizzatti/dash.vim'
 NeoBundle "thinca/vim-localrc"
 NeoBundle 'tyru/caw.vim'
 NeoBundle "jceb/vim-hier"
+NeoBundle 'bling/vim-airline'
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -151,7 +151,6 @@ NeoBundle "tpope/vim-haml"
 
 " C/C++
 NeoBundle 'osyo-manga/vim-reunions'
-
 
 
 " Plugin reading finish
@@ -233,13 +232,6 @@ elseif neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_camel_case_completion = 1
   let g:neocomplcache_enable_underbar_completion = 1
 endif
-" }}}
-
-" lightline {{{
-let g:lightline = {
-      \ 'colorscheme': 'nighted',
-      \ }
-set laststatus=2
 " }}}
 
 " memolist.vim {{{
@@ -326,9 +318,23 @@ nnoremap <Space>ns :execute "tabnew\|:NeoSnippetEdit ".&filetype<CR>
 let g:neosnippet#snippets_directory = "~/.vim/bundle/neosnippet-snippets/neosnippets"
 " }}}
 
+" Indent Guides {{{
+hi IndentGuidesOdd  ctermbg=235
+hi IndentGuidesEven ctermbg=237
 " }}}
 
-" }}}
+" vim-airline }}}
+let g:airline_section_a = airline#section#create(['mode',''])
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#right_sep = ' '
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_left_sep = ' '
+let g:airline_right_sep = ' '
+set laststatus=2
+" }}} 
 
 " GUI settings {{{
 
@@ -446,6 +452,7 @@ set list
 highlight NonText cterm=underline ctermfg=darkgrey
 highlight SpecialKey cterm=underline ctermfg=darkgrey
 set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
+
 " }}}
 
 " }}}
