@@ -28,6 +28,7 @@ install rbenv-gemset
 install rbenv-gem-rehash
 install readline
 install gnuplot
+install android-skd
 
 cask install dash
 cask install phpstorm
