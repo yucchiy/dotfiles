@@ -61,3 +61,4 @@ alias pk="peco-pkill"
 alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
 alias -g BA='`git branch -a | peco | sed -e "s/^\*[ ]*//g"`'
 alias tiga="tig --all"
+alias nippou='echo "$(PROJECT=$(url=$(git config remote.origin.url) && url=${url#*github.com?} && echo ${url%.git}) && git log --since="12 hours ago" --author=$(git config user.email) --pretty="format:[%h](https://github.com/$PROJECT/commit/%h) | %s" | perl -nle "\$_ =~ s|#(\\d+)|[#\\1](https://github.com/${PROJECT}/pull/\\1)|g; print \$_")"'
