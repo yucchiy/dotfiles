@@ -40,6 +40,8 @@ set nobackup
 
 set clipboard+=unnamed
 set clipboard+=autoselect
+
+let $PATH="/Users/yucchiy/bin:".$PATH
 " }}}
 
 " Plugin settings {{{
@@ -109,6 +111,7 @@ NeoBundle "thinca/vim-localrc"
 NeoBundle 'tyru/caw.vim'
 NeoBundle "jceb/vim-hier"
 NeoBundle 'bling/vim-airline'
+NeoBundle 'sorah/unite-ghq'
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -181,13 +184,17 @@ map     <Leader>u [unite]
 nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
-nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec:!<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 
 call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
 " unite-outline {{{
 nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
+" }}}
+
+" unite-ghq {{{
+nnoremap <silent>[unite]g :<C-u>Unite ghq<CR>
 " }}}
 
 " unite-colorscheme {{{
@@ -490,6 +497,7 @@ augroup END
 " }}}
 
 " Ruby {{{
+au BufRead,BufNewFile *.rabl setf ruby
 " }}}
 
 function! s:unite_gitignore_source()

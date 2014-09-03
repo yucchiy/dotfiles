@@ -17,8 +17,10 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 for f (~/.zsh/sources/peco/*) source "${f}"
 
+eval "$(direnv hook zsh)"
+
 # enable oh-my-zsh
-plugins=(brew bundler git git-extra rbenv vagrant)
+plugins=(brew bundler git git-extra rbenv vagrant github)
 source $ZSH/oh-my-zsh.sh
 
 # for golang
@@ -58,3 +60,4 @@ alias be="bundle exec"
 alias pk="peco-pkill"
 alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
 alias -g BA='`git branch -a | peco | sed -e "s/^\*[ ]*//g"`'
+alias tiga="tig --all"

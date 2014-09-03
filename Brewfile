@@ -29,8 +29,8 @@ install rbenv-gem-rehash
 install readline
 install gnuplot
 install android-skd
+install direnv
 
-cask install dash
 cask install phpstorm
 cask install iterm2
 cask install google-chrome
