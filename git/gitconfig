@@ -1,5 +1,5 @@
 [hub]
-    protocol = https
+    protocol = git
 
 [user]
     name = Yuichiro Mukai
@@ -12,7 +12,7 @@
     ui = true
 
 [core]
-	excludesfile = /Users/yucchiy/.gitignore_global
+    excludesfile = /Users/yucchiy/.gitignore_global
     editor = vim
 
 [alias]
@@ -31,8 +31,8 @@
 [ghq]
     root = ~/src
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path = 
 [mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.5.2/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.5.2/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
