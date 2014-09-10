@@ -41,7 +41,7 @@ set nobackup
 set clipboard+=unnamed
 set clipboard+=autoselect
 
-let $PATH="/Users/yucchiy/bin:".$PATH
+let $PATH=$HOME."/bin:".$PATH
 " }}}
 
 " Plugin settings {{{
@@ -129,6 +129,7 @@ NeoBundle 'evidens/vim-twig'
 " JavaScript
 " NeoBundle "jiangmiao/simple-javascript-indenter"
 NeoBundle "pangloss/vim-javascript"
+NeoBundle "digitaltoad/vim-jade"
 
 " Ruby
 NeoBundleLazy 'edsono/vim-matchit', { 
@@ -184,7 +185,7 @@ map     <Leader>u [unite]
 nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
-nnoremap <silent>[unite]p         :<C-u>Unite file_rec:!<CR>
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec/async:!<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 
 call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
@@ -515,6 +516,8 @@ function! s:unite_gitignore_source()
   endif
   let pattern = escape(join(sources, '|'), './|')
   call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
   call unite#custom#source('grep', 'ignore_pattern', pattern)
 endfunction
 call s:unite_gitignore_source()
