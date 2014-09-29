@@ -61,6 +61,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Color scheme
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'reedes/vim-colors-pencil'
+NeoBundle 'yucchiy/vim-dracula'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'brendonrapp/smyck-vim'
 
@@ -112,6 +113,7 @@ NeoBundle 'tyru/caw.vim'
 NeoBundle "jceb/vim-hier"
 NeoBundle 'bling/vim-airline'
 NeoBundle 'sorah/unite-ghq'
+NeoBundle 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -125,6 +127,9 @@ NeoBundle 'osyo-manga/vim-precious'
 
 " PHP
 NeoBundle 'evidens/vim-twig'
+
+" Golang
+NeoBundle 'fatih/vim-go'
 
 " JavaScript
 " NeoBundle "jiangmiao/simple-javascript-indenter"
@@ -188,7 +193,7 @@ nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR>
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec/async:!<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 
-call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+" call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
 " unite-outline {{{
 nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
@@ -247,6 +252,7 @@ map <Leader>mn  :MemoNew<CR>
 map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
 nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
 map <Leader>mg  :MemoGrep<CR>
+
 
 let g:memolist_memo_suffix = "markdown"
 let g:memolist_memo_date = "%Y-%m-%d %H:%M"
@@ -333,6 +339,7 @@ hi IndentGuidesEven ctermbg=237
 
 " vim-airline }}}
 let g:airline_section_a = airline#section#create(['mode',''])
+" let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#right_sep = ' '
@@ -341,6 +348,8 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
+let g:airline_theme = 'pencil'
+
 set laststatus=2
 " }}} 
 
@@ -360,11 +369,17 @@ syntax enable
 set t_Co=256
 "set background=light
 "colorscheme pencil
-set background=dark
-colorscheme lucius
+if has('gui_running')
+  set background=dark
+  colorscheme dracula
+  hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
+else
+  set background=dark
+  colorscheme lucius
+end
 " }}}
 
-let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_enable_on_vim_startup = 1
 
 " }}}
 
@@ -515,10 +530,10 @@ function! s:unite_gitignore_source()
     call add(sources, '.git')
   endif
   let pattern = escape(join(sources, '|'), './|')
-  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
-  call unite#custom#source('grep', 'ignore_pattern', pattern)
+"   call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+"   call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
+"   call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
+"   call unite#custom#source('grep', 'ignore_pattern', pattern)
 endfunction
 call s:unite_gitignore_source()
 

@@ -20,7 +20,7 @@ for f (~/.zsh/sources/peco/*) source "${f}"
 eval "$(direnv hook zsh)"
 
 # enable oh-my-zsh
-plugins=(brew bundler git git-extra rbenv vagrant github)
+plugins=(brew bundler git git-extras rbenv vagrant github)
 source $ZSH/oh-my-zsh.sh
 
 # for golang
