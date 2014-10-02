@@ -62,6 +62,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'yucchiy/vim-dracula'
+NeoBundle 'whatyouhide/vim-gotham'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'brendonrapp/smyck-vim'
 
@@ -348,7 +349,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
-let g:airline_theme = 'pencil'
+let g:airline_theme = 'gotham'
 
 set laststatus=2
 " }}} 
@@ -371,11 +372,11 @@ set t_Co=256
 "colorscheme pencil
 if has('gui_running')
   set background=dark
-  colorscheme dracula
+  colorscheme gotham
   hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
 else
   set background=dark
-  colorscheme lucius
+  colorscheme gotham
 end
 " }}}
 
