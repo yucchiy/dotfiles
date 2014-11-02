@@ -129,6 +129,9 @@ NeoBundle 'osyo-manga/vim-precious'
 " PHP
 NeoBundle 'evidens/vim-twig'
 
+" CMake
+NeoBundle 'vhdirk/vim-cmake'
+
 " Golang
 NeoBundle 'fatih/vim-go'
 
@@ -191,7 +194,8 @@ map     <Leader>u [unite]
 nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
-nnoremap <silent>[unite]p         :<C-u>Unite file_rec/async:!<CR>
+nnoremap <silent>[unite]pg        :<C-u>Unite file_rec/git<CR>
+nnoremap <silent>[unite]pf        :<C-u>Unite file_rec/async<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 
 " call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
@@ -349,7 +353,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
-let g:airline_theme = 'gotham'
+" let g:airline_theme = 'gotham'
 
 set laststatus=2
 " }}} 
@@ -375,8 +379,8 @@ if has('gui_running')
   colorscheme gotham
   hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
 else
-  set background=dark
-  colorscheme gotham
+  " set background=dark
+  " colorscheme lucius
 end
 " }}}
 
@@ -531,12 +535,25 @@ function! s:unite_gitignore_source()
     call add(sources, '.git')
   endif
   let pattern = escape(join(sources, '|'), './|')
-"   call unite#custom#source('file_rec', 'ignore_pattern', pattern)
-"   call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
-"   call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
-"   call unite#custom#source('grep', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec!', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/async!', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/git!', 'ignore_pattern', pattern)
+  call unite#custom#source('grep', 'ignore_pattern', pattern)
 endfunction
-call s:unite_gitignore_source()
+" call s:unite_gitignore_source()
+
+function! DispatchUniteFileRecAsyncOrGit()
+  if isdirectory(getcwd()."/.git")
+    Unite file_rec/git
+  else
+    Unite file_rec/async
+  endif
+endfunction
+
+" nnoremap <silent> <C-p> :<C-u>call DispatchUniteFileRecAsyncOrGit()<CR>
 
 " }}}
 
