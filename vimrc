@@ -61,6 +61,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Color scheme
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'reedes/vim-colors-pencil'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'yucchiy/vim-dracula'
 NeoBundle 'whatyouhide/vim-gotham'
 NeoBundle 'jonathanfilip/vim-lucius'
@@ -96,7 +97,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
 
 " syntax
 NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'taichouchou2/html5.vim'
+" NeoBundle 'taichouchou2/html5.vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'cakebaker/scss-syntax.vim'
@@ -104,7 +105,6 @@ NeoBundle 'wolf-dog/nighted.vim'
 
 " tools
 NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tobyS/pdv'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'rizzatti/funcoo.vim'
@@ -115,6 +115,7 @@ NeoBundle "jceb/vim-hier"
 NeoBundle 'bling/vim-airline'
 NeoBundle 'sorah/unite-ghq'
 NeoBundle 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
+NeoBundle 'junegunn/vim-emoji'
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -165,12 +166,19 @@ NeoBundle "tpope/vim-haml"
 " C/C++
 NeoBundle 'osyo-manga/vim-reunions'
 
+" Swift
+NeoBundle 'toyamarinyon/vim-swift'
+
+" Filer
+NeoBundle "Shougo/vimfiler"
+
 
 " Plugin reading finish
 filetype plugin indent on
 
 " Installation check
 NeoBundleCheck
+
 " }}}
 
 " Setting plugins {{{
@@ -197,6 +205,7 @@ nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR>
 nnoremap <silent>[unite]pg        :<C-u>Unite file_rec/git<CR>
 nnoremap <silent>[unite]pf        :<C-u>Unite file_rec/async<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
+nnoremap <silent>[unite]tb        :<C-u>Unite tab<CR>
 
 " call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
@@ -356,7 +365,9 @@ let g:airline_right_sep = ' '
 " let g:airline_theme = 'gotham'
 
 set laststatus=2
-" }}} 
+" }}}
+
+let g:vimfiler_as_default_explorer = 1
 
 " GUI settings {{{
 
@@ -376,8 +387,8 @@ set t_Co=256
 "colorscheme pencil
 if has('gui_running')
   set background=dark
-  colorscheme gotham
-  hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
+  colorscheme lucius
+  " hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
 else
   " set background=dark
   " colorscheme lucius

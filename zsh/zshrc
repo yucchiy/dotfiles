@@ -20,8 +20,11 @@ for f (~/.zsh/sources/peco/*) source "${f}"
 
 eval "$(direnv hook zsh)"
 
+export PATH=$PATH:~/.phpenv/bin
+eval "$(phpenv init -)"
+
 # enable oh-my-zsh
-plugins=(brew bundler git git-extras rbenv vagrant github)
+plugins=(brew bundler git git-extras rbenv vagrant github docker)
 source $ZSH/oh-my-zsh.sh
 
 # for golang
@@ -36,20 +39,11 @@ if [ -n "$TMUX" ]; then
     alias pbcopy="reattach-to-user-namespace pbcopy"
 fi
 
-export DOCKER_HOST=tcp://192.168.200.10:4243
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=/Users/yucchiy/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
 
-
-# for MacVim
-case ${OSTYPE} in
-    darwin*)
-        function macvim() {
-        if [ -d /Applications/MacVim.app ]
-        then
-            [ ! -f $1 ] && touch $1
-            open -a MacVim $1
-        fi
-    }
-esac
+export SSL_CERT_FILE=/usr/local/etc/openssl/cert.pem
 
 # key-bindings
 bindkey '^h' peco-select-history
@@ -62,4 +56,3 @@ alias pk="peco-pkill"
 alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
 alias -g BA='`git branch -a | peco | sed -e "s/^\*[ ]*//g"`'
 alias tiga="tig --all"
-alias nippou='echo "$(PROJECT=$(url=$(git config remote.origin.url) && url=${url#*github.com?} && echo ${url%.git}) && git log --since="12 hours ago" --author=$(git config user.email) --pretty="format:[%h](https://github.com/$PROJECT/commit/%h) | %s" | perl -nle "\$_ =~ s|#(\\d+)|[#\\1](https://github.com/${PROJECT}/pull/\\1)|g; print \$_")"'
