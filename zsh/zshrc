@@ -16,12 +16,11 @@ export LD_LIBRARY_PATH=/usr/local/lib
 # setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+source $HOME/.phpbrew/bashrc
+
 for f (~/.zsh/sources/peco/*) source "${f}"
 
 eval "$(direnv hook zsh)"
-
-export PATH=$PATH:~/.phpenv/bin
-eval "$(phpenv init -)"
 
 # enable oh-my-zsh
 plugins=(brew bundler git git-extras rbenv vagrant github docker)

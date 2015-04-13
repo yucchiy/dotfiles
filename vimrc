@@ -98,10 +98,14 @@ NeoBundleLazy 'Shougo/unite.vim', {
 " syntax
 NeoBundle 'hail2u/vim-css3-syntax'
 " NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'gre/play2vim'
+NeoBundle 'mxw/vim-jsx'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'wolf-dog/nighted.vim'
+NeoBundle 'ekalinin/Dockerfile.vim'
 
 " tools
 NeoBundle 'glidenote/memolist.vim'
@@ -115,7 +119,9 @@ NeoBundle "jceb/vim-hier"
 NeoBundle 'bling/vim-airline'
 NeoBundle 'sorah/unite-ghq'
 NeoBundle 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
+NeoBundle 'mattn/emoji-vim'
 NeoBundle 'junegunn/vim-emoji'
+NeoBundle 'rhysd/unite-emoji.vim'
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -202,12 +208,14 @@ map     <Leader>u [unite]
 nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
-nnoremap <silent>[unite]pg        :<C-u>Unite file_rec/git<CR>
-nnoremap <silent>[unite]pf        :<C-u>Unite file_rec/async<CR>
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec/git<CR>
+" nnoremap <silent>[unite]pf        :<C-u>Unite file_rec/async<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 nnoremap <silent>[unite]tb        :<C-u>Unite tab<CR>
 
 " call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
+
+set completefunc=emoji#complete
 
 " unite-outline {{{
 nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
@@ -217,6 +225,11 @@ nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
 nnoremap <silent>[unite]g :<C-u>Unite ghq<CR>
 " }}}
 
+" unite-emoji {{{
+nnoremap <silent>[unite]e :<C-u>Unite emoji<CR>
+" }}}
+
+
 " unite-colorscheme {{{
 nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
 " }}}
@@ -224,6 +237,40 @@ nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
 " unite-help {{{
 nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
 " }}}
+
+function! s:unite_gitignore_source()
+  let sources = []
+  if filereadable('./.gitignore')
+    for file in readfile('./.gitignore')
+      if file !~ "^#\\|^\s\*$"
+        call add(sources, file)
+      endif
+    endfor
+  endif
+
+  if isdirectory('./.git')
+    call add(sources, '.git')
+  endif
+  let pattern = escape(join(sources, '|'), './|')
+  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec!', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/async!', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
+  call unite#custom#source('file_rec/git!', 'ignore_pattern', pattern)
+  call unite#custom#source('grep', 'ignore_pattern', pattern)
+endfunction
+" call s:unite_gitignore_source()
+
+function! DispatchUniteFileRecAsyncOrGit()
+  if isdirectory(getcwd()."/.git")
+    Unite file_rec/git
+  else
+    Unite file_rec/async
+  endif
+endfunction
+
+" nnoremap <silent> <C-p> :<C-u>call DispatchUniteFileRecAsyncOrGit()<CR>
 
 " }}}
 
@@ -351,9 +398,9 @@ hi IndentGuidesOdd  ctermbg=235
 hi IndentGuidesEven ctermbg=237
 " }}}
 
-" vim-airline }}}
+" Airline {{{
+
 let g:airline_section_a = airline#section#create(['mode',''])
-" let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#right_sep = ' '
@@ -362,12 +409,18 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
-" let g:airline_theme = 'gotham'
-
 set laststatus=2
+
 " }}}
 
+" Others {{{
 let g:vimfiler_as_default_explorer = 1
+map <Leader>fl :VimFiler . -split -simple -winwidth=35 -no-quit<CR>
+" }}}
+
+" }}}
+
+" }}}
 
 " GUI settings {{{
 
@@ -375,7 +428,7 @@ let g:vimfiler_as_default_explorer = 1
 set guifont=Ricty:h14
 
 if has('gui_running')
-  set transparency=0
+"  set transparency=5
   set visualbell t_vb=
 endif
 " }}}
@@ -387,15 +440,13 @@ set t_Co=256
 "colorscheme pencil
 if has('gui_running')
   set background=dark
-  colorscheme lucius
+  colorscheme desert
   " hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
 else
   " set background=dark
-  " colorscheme lucius
+  colorscheme slate
 end
 " }}}
-
-" let g:indent_guides_enable_on_vim_startup = 1
 
 " }}}
 
@@ -450,7 +501,7 @@ if has("autocmd")
   autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType xhtml      setlocal sw=2 sts=2 ts=22 et
   autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
@@ -467,6 +518,7 @@ autocmd FileType * set formatoptions-=ro
 " }}}
 
 " searching settings {{{
+
 " hit Cap letters even when searching with non Cap
 set ignorecase
 " distinct Cap and none Cap when searching with Cap and none combined
@@ -475,9 +527,11 @@ set smartcase
 set incsearch
 " stop at the end of the file
 set nowrapscan
+
 " }}}
 
-" showing settings {{{
+" Showing settings {{{
+
 set number
 set cursorline
 set showmatch
@@ -500,7 +554,8 @@ set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 
 " HTML5 {{{
 
-" HTML5 Tags {{{ 
+" HTML5 Tags Setting {{{
+
 syn keyword htmlTagName contained article aside audio bb canvas command
 syn keyword htmlTagName contained datalist details dialog embed figure
 syn keyword htmlTagName contained header hgroup keygen mark meter nav output
@@ -515,6 +570,7 @@ syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
 syn keyword htmlArg contained hidden role
 syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
 syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
+
 " }}}
 
 " }}}
@@ -526,45 +582,20 @@ augroup cpp-path
   autocmd!
   autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/opt/local/include
 augroup END
+
 " }}}
 
 " Ruby {{{
+
 au BufRead,BufNewFile *.rabl setf ruby
+
 " }}}
 
-function! s:unite_gitignore_source()
-  let sources = []
-  if filereadable('./.gitignore')
-    for file in readfile('./.gitignore')
-      if file !~ "^#\\|^\s\*$"
-        call add(sources, file)
-      endif
-    endfor
-  endif
+" JSX {{{
 
-  if isdirectory('./.git')
-    call add(sources, '.git')
-  endif
-  let pattern = escape(join(sources, '|'), './|')
-  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec!', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/async!', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/git!', 'ignore_pattern', pattern)
-  call unite#custom#source('grep', 'ignore_pattern', pattern)
-endfunction
-" call s:unite_gitignore_source()
+let g:jsx_pragma_required = 1
 
-function! DispatchUniteFileRecAsyncOrGit()
-  if isdirectory(getcwd()."/.git")
-    Unite file_rec/git
-  else
-    Unite file_rec/async
-  endif
-endfunction
-
-" nnoremap <silent> <C-p> :<C-u>call DispatchUniteFileRecAsyncOrGit()<CR>
+" }}}
 
 " }}}
 

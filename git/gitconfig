@@ -26,6 +26,7 @@
     dfc = diff --cached
     co = checkout
     br = branch
+    wip = commit --allow-empty -m "wip"
     find-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" --format=%H' _"
     show-rev = "!sh -c 'git log -1 --grep=\"^git-svn-id: [^ ]*@${1#r} \" -p' _"
     delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
