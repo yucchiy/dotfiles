@@ -440,11 +440,11 @@ set t_Co=256
 "colorscheme pencil
 if has('gui_running')
   set background=dark
-  colorscheme desert
+  colorscheme dracula
   " hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
 else
-  " set background=dark
-  colorscheme slate
+  set background=dark
+  colorscheme dracula
 end
 " }}}
 
@@ -476,7 +476,7 @@ if has("autocmd")
   autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType conf       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType c          setlocal sw=8 sts=8 ts=8 et
   autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
@@ -544,7 +544,7 @@ set list
 
 highlight NonText cterm=underline ctermfg=darkgrey
 highlight SpecialKey cterm=underline ctermfg=darkgrey
-set listchars=tab:»-,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-
 
 " }}}
 
