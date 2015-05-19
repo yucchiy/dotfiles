@@ -1,7 +1,9 @@
-" Basic settings {{{
+"" yucchiy's vimrc
 
-" highlight search result key mapping
-nnoremap <c-h><c-l> :set hlsearch! hlsearch?<cr>
+" Essentials {{{
+
+" set $PATH
+let $PATH=$HOME."/bin:".$PATH
 
 " leaderkey
 let mapleader=','
@@ -18,136 +20,87 @@ set fileencodings=utf-8,sjis,shift-jis,euc-jp,utf-16,ascii,ucs-bom,cp932,iso-202
 " new line formats
 set fileformats=unix,dos,mac
 
-set ttyfast
-set scrolloff=7
-set ttyscroll=3
-set lazyredraw
-
 " use backspace when insert mode
 set backspace=indent,eol,start
 
 language message C
 language time C
 
-set langmenu=none
-
+" fold settings
 set foldenable
 set foldmethod=marker
 
 set ambiwidth=double
 
+" not using local back up
 set nobackup
-
-set clipboard+=unnamed
-set clipboard+=autoselect
-
-let $PATH=$HOME."/bin:".$PATH
 
 " }}}
 
-" Plugin settings {{{
+" Installing Plugins {{{
 
-" Installing plugins {{{
-
-" Plugin read start
+" load neobundle.vim
 if has('vim_starting')
-  set nocompatible               " Be iMproved
+  set nocompatible
   set runtimepath+=~/.dotfiles/vim/bundle/neobundle.vim/
 endif
 
 call neobundle#rc(expand('~/.dotfiles/vim/bundle/'))
 
+" Install Essential plugins
 NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \       'windows' : 'make -f make_mingw32.make',
+      \       'cygwin'  : 'make -f make_cygwin.mak',
+      \       'mac'     : 'make -f make_mac.mak',
+      \       'unix'    : 'make -f make_unix.mak',
+      \   },
+      \ }
 
-" Color scheme
-NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'reedes/vim-colors-pencil'
-NeoBundle '29decibel/codeschool-vim-theme'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'yucchiy/vim-dracula'
-NeoBundle 'whatyouhide/vim-gotham'
-NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'brendonrapp/smyck-vim'
+" Unite Plugins
+NeoBundle 'Shougo/unite.vim', {
+      \ 'autoload' : {
+      \     'commands' : [{'name': 'Unite', 'complete' : 'customlist,unite#complete_source'},
+      \                   'UniteWithBufferDir',
+      \                   'UniteWithCursorWord', 'UniteWithInput'],
+      \     }
+      \ }
 
-" Unite
-NeoBundle 'Shougo/unite-outline'
+NeoBundle 'sorah/unite-ghq'
+NeoBundle 'shougo/unite-outline'
 NeoBundle 'osyo-manga/unite-quickfix'
-NeoBundle 'Shougo/unite-help'
+NeoBundle 'shougo/unite-help'
 
-" NeoComplete/NeoComlcache
+" Install NeoComplete or NeoComplcache for using AutoComplete
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 
-" NeoSnipet
-NeoBundle 'Shougo/neosnippet'
+" Filer
+NeoBundle "Shougo/vimfiler"
 
-NeoBundle 'Shougo/vimproc.vim', {
-            \ 'build' : {
-            \       'windows' : 'make -f make_mingw32.make',
-            \       'cygwin'  : 'make -f make_cygwin.mak',
-            \       'mac'     : 'make -f make_mac.mak',
-            \       'unix'    : 'make -f make_unix.mak',
-            \   },
-            \ }
-
-NeoBundleLazy 'Shougo/unite.vim', {
-            \ 'autoload' : {
-            \     'commands' : [{'name': 'Unite', 'complete' : 'customlist,unite#complete_source'},
-            \                   'UniteWithBufferDir',
-            \                   'UniteWithCursorWord', 'UniteWithInput'],
-            \     }
-            \ }
-
-" syntax
-NeoBundle 'hail2u/vim-css3-syntax'
-" NeoBundle 'taichouchou2/html5.vim'
-NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'gre/play2vim'
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'claco/jasmine.vim'
-NeoBundle 'cakebaker/scss-syntax.vim'
-NeoBundle 'wolf-dog/nighted.vim'
-NeoBundle 'ekalinin/Dockerfile.vim'
-
-" tools
-NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'tobyS/pdv'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'rizzatti/funcoo.vim'
-NeoBundle 'rizzatti/dash.vim'
-NeoBundle "thinca/vim-localrc"
-NeoBundle 'tyru/caw.vim'
-NeoBundle "jceb/vim-hier"
-NeoBundle 'sorah/unite-ghq'
-NeoBundle 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
-
-" references
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'slim-template/vim-slim'
-
-" Quickrun
-NeoBundle 'thinca/vim-quickrun'
-
-NeoBundle 'Shougo/context_filetype.vim'
-NeoBundle 'osyo-manga/vim-precious'
-
-" PHP
+" Syntax
 NeoBundle 'StanAngeloff/php.vim'
 NeoBundle 'evidens/vim-twig'
 NeoBundle 'xsbeats/vim-blade'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'mxw/vim-jsx'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'tpope/vim-markdown'
 
-" CMake
+" Misc
+NeoBundle 'slim-template/vim-slim'
+NeoBundle 'rhysd/accelerated-jk'
+NeoBundle '29decibel/codeschool-vim-theme'
+NeoBundle 'osyo-manga/vim-precious', { 'depends': 'Shougo/context_filetype.vim' }
+NeoBundle "thinca/vim-localrc"
+NeoBundle 'tyru/caw.vim'
 NeoBundle 'vhdirk/vim-cmake'
-
-" Golang
 NeoBundle 'fatih/vim-go'
-
-" JavaScript
-" NeoBundle "jiangmiao/simple-javascript-indenter"
 NeoBundle "pangloss/vim-javascript"
 NeoBundle "digitaltoad/vim-jade"
+NeoBundle 'bling/vim-airline'
+NeoBundle 'Lokaltog/vim-easymotion'
 
-" Ruby
 NeoBundleLazy 'edsono/vim-matchit', { 
       \ 'autoload' : {
       \   'filetypes': 'ruby',
@@ -169,107 +122,44 @@ NeoBundleLazy 'alpaca-tc/vim-endwise.git', {
 NeoBundle "vim-ruby/vim-ruby.git"
 NeoBundle "tpope/vim-haml"
 
-" C/C++
-NeoBundle 'osyo-manga/vim-reunions'
-
-" Swift
-NeoBundle 'toyamarinyon/vim-swift'
-
-" Filer
-NeoBundle "Shougo/vimfiler"
-
-" Misc
-NeoBundle 'rhysd/accelerated-jk'
-
 
 " Plugin reading finish
 filetype plugin indent on
 
-" Installation check
 NeoBundleCheck
 
 " }}}
 
-" Setting plugins {{{
+" Plugin Settings {{{
 
 " unite.vim {{{
+
 let g:unite_enable_start_insert = 1
-
 let g:unite_source_file_mru_filename_format = ''
-
 let g:unite_source_file_mru_limit = 100
-
 let g:unite_split_rule = 'rightbelow'
-
 let g:loaded_unite_source_bookmark = 1
 let g:loaded_unite_source_tab = 1
 let g:loaded_unite_source_window = 1
 
-noremap [unite] <Nop>
-map     <Leader>u [unite]
+" Key Mapping
+noremap  [unite] <Nop>
+map      <Leader>u [unite]
 
 nnoremap [unite]u :<C-u>Unite source<CR>
 nnoremap <silent>[unite]g         :<C-u>Unite -no-start-insert grep<CR>
 nnoremap <silent>[unite]is        :<C-u>Unite source -vertical<CR> 
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec/git<CR>
-" nnoremap <silent>[unite]pf        :<C-u>Unite file_rec/async<CR>
 nnoremap <silent>[unite]ns        :<C-u>Unite neosnippet<CR>
 nnoremap <silent>[unite]tb        :<C-u>Unite tab<CR>
 
-" call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
-
-" unite-outline {{{
 nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
-" }}}
-
-" unite-ghq {{{
 nnoremap <silent>[unite]g :<C-u>Unite ghq<CR>
+
 " }}}
 
-" unite-colorscheme {{{
-nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
-" }}}
+" NeoComplete/NeoComplCache {{{
 
-" unite-help {{{
-nnoremap <silent>[unite]hh        :<C-u>UniteWithInput help -vertical<CR>C
-" }}}
-
-function! s:unite_gitignore_source()
-  let sources = []
-  if filereadable('./.gitignore')
-    for file in readfile('./.gitignore')
-      if file !~ "^#\\|^\s\*$"
-        call add(sources, file)
-      endif
-    endfor
-  endif
-
-  if isdirectory('./.git')
-    call add(sources, '.git')
-  endif
-  let pattern = escape(join(sources, '|'), './|')
-  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec!', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/async', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/async!', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/git', 'ignore_pattern', pattern)
-  call unite#custom#source('file_rec/git!', 'ignore_pattern', pattern)
-  call unite#custom#source('grep', 'ignore_pattern', pattern)
-endfunction
-" call s:unite_gitignore_source()
-
-function! DispatchUniteFileRecAsyncOrGit()
-  if isdirectory(getcwd()."/.git")
-    Unite file_rec/git
-  else
-    Unite file_rec/async
-  endif
-endfunction
-
-" nnoremap <silent> <C-p> :<C-u>call DispatchUniteFileRecAsyncOrGit()<CR>
-" }}}
-
-" NeoComplete/NeoComplCache{{{
 if neobundle#is_installed('neocomplete')
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_ignore_case = 1
@@ -293,6 +183,7 @@ if neobundle#is_installed('neocomplete')
   inoremap <expr><C-g>     neocomplete#undo_completion()
   inoremap <expr><C-l>     neocomplete#complete_common_string()
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
 elseif neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_at_startup = 1
   let g:neocomplcache_enable_ignore_case = 1
@@ -307,160 +198,90 @@ elseif neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_camel_case_completion = 1
   let g:neocomplcache_enable_underbar_completion = 1
 endif
+
 " }}}
 
-" memolist.vim {{{
-map <Leader>mn  :MemoNew<CR>
-map <Leader>ml  :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
-nnoremap <silent>[unite]ml :Unite file:<C-r>=g:memolist_path."/"<CR><CR>
-map <Leader>mg  :MemoGrep<CR>
-
-
-let g:memolist_memo_suffix = "markdown"
-let g:memolist_memo_date = "%Y-%m-%d %H:%M"
-let g:memolist_prompt_tags = 1 
-let g:memolist_vimfiler = 1 
-
-let g:memolist_path = "~/Dropbox/Data/Memolist"
-" }}}
-
-" vim-precious {{{
-" filetype=help は insert 時のみ切り替わるように設定
-let g:precious_enable_switch_CursorMoved = {
-\   "help" : 0
-\}
-
-let g:context_filetype#filetypes = {
-            \ 'html': [
-            \   {
-            \    'start':
-            \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
-            \    'end': '</script>', 'filetype': 'javascript',
-            \   },
-            \   {
-            \    'start':
-            \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
-            \    'end': '</script>', 'filetype': 'coffee',
-            \   },
-            \   {
-            \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
-            \    'end': '</style>', 'filetype': 'css',
-            \   },
-            \   {
-            \    'start': '<?php\?',
-            \    'end': '?>', 'filetype': 'php',
-            \   }
-            \ ],}
-" }}}
-
-" quickrun {{{
-let g:quickrun_config = {}
-
-let g:quickrun_config._ = {
-      \ "outputter" : "error",
-      \ "outputter/error/success" : "buffer",
-      \ "outputter/error/error"   : "quickfix",
-      \ "outputter/buffer/split" : ":botright 8sp",
-      \ "outputter/quickfix/open_cmd" : "copen",
-      \ "runner" : "vimproc",
-      \ "runner/vimproc/updatetime" : 500
-      \ }
-let g:quickrun_config.markdown = {
-      \ 'outputter' : 'null',
-      \ 'command'   : 'open',
-      \ 'cmdopt'    : '-a',
-      \ 'args'      : 'Marked\ 2',
-      \ 'exec'      : '%c %o %a %s',
-      \ }
-map <Leader>qr :QuickRun<CR>
-" }}}
-
-" caw.vim {{{
-nmap <Leader>ct <Plug>(caw:I:toggle)
-vmap <Leader>ct <Plug>(caw:I:toggle)
-
-nmap <Leader>co <Plug>(caw:I:uncomment)
-vmap <Leader>co <Plug>(caw:I:uncomment)
-" }}}
-
-" neosnippet {{{
-
-" 現在の filetype のスニペットを編集する為のキーマッピング
-" こうしておくことでサッと編集や追加などを行うことができる
-" 以下の設定では新しいタブでスニペットファイルを開く
-nnoremap <Space>ns :execute "tabnew\|:NeoSnippetEdit ".&filetype<CR>
-
-" スニペットファイルの保存ディレクトリを設定
-let g:neosnippet#snippets_directory = "~/.vim/bundle/neosnippet-snippets/neosnippets"
-" }}}
-
-" Indent Guides {{{
-hi IndentGuidesOdd  ctermbg=235
-hi IndentGuidesEven ctermbg=237
-" }}}
-
-" Others {{{
+" VimFiler {{{
+"
 let g:vimfiler_as_default_explorer = 1
 map <Leader>fl :VimFiler . -split -simple -winwidth=35 -no-quit<CR>
 
-nmap j <Plug>(accelerated_jk_gj_position)
-nmap k <Plug>(accelerated_jk_gk_position)
+" }}}
+
+" vim-precious {{{
+let g:precious_enable_switch_CursorMoved = {
+      \   "help" : 0
+      \ }
+let g:context_filetype#filetypes = {
+      \ 'html': [
+      \   {
+      \    'start':
+      \     '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
+      \    'end': '</script>', 'filetype': 'javascript',
+      \   },
+      \   {
+      \    'start':
+      \     '<script\%( [^>]*\)\? type="text/coffeescript"\%( [^>]*\)\?>',
+      \    'end': '</script>', 'filetype': 'coffee',
+      \   },
+      \   {
+      \    'start': '<style\%( [^>]*\)\? type="text/css"\%( [^>]*\)\?>',
+      \    'end': '</style>', 'filetype': 'css',
+      \   },
+      \   {
+      \    'start': '<?php\?',
+      \    'end': '?>', 'filetype': 'php',
+      \   }
+      \ ],}
+" }}}
+
+" caw.vim {{{
+
+nmap <leader>ct <plug>(caw:i:toggle)
+vmap <leader>ct <plug>(caw:i:toggle)
+
+nmap <leader>co <plug>(caw:i:uncomment)
+vmap <leader>co <plug>(caw:i:uncomment)
+
+" }}}
+
+" easymotion.vim {{{
+
+nmap s <Plug>(easymotion-s2)
+
+let g:EasyMotion_do_mapping = 1
+
+nmap g/ <Plug>(easymotion-sn)
+xmap g/ <Plug>(easymotion-sn)
+omap g/ <Plug>(easymotion-tn)
+
+EMCommandLineNoreMap <Space> <CR>
+EMCommandLineNoreMap ; <CR>
+EMCommandLineNoreMap <C-j> <Space>
+
 " }}}
 
 " }}}
 
-" }}}
+" Editor Settings {{{
 
-" GUI settings {{{
+" Indent {{{
 
-" Font settings {{{
-set guifont=Ricty:h14
-
-if has('gui_running')
-"  set transparency=5
-  set visualbell t_vb=
-endif
-" }}}
-
-" color settings {{{
-syntax enable
-set t_Co=256
-"set background=light
-"colorscheme pencil
-if has('gui_running')
-  set background=dark
-  colorscheme codeschool
-end
-" }}}
-
-" }}}
-
-" Editing settings {{{
-
-" indent settings {{{
-" http://qiita.com/items/c30367a3af5e418595e9
 set autoindent
-" auto insert
 set smartindent
-
 set expandtab
-
-" how much does tab uses space when display
 set tabstop=4
-" how much spaces will be inserted when tab is pressed. saame as BS. if it's set to 0, it'll automatically be the same as tabstop
 set softtabstop=4
-" how much does it change when '>>' or '<<' is pressed
 set shiftwidth=4
 
+" }}}
+
+" Specify Language Indent Settings {{{
 if has("autocmd")
   filetype plugin on
   filetype indent on
-  " when u wanna turn it off
-  " autocmd FileType html filetype indent off
 
-  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType conf       setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType c          setlocal sw=8 sts=8 ts=8 et
   autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
@@ -468,7 +289,6 @@ if has("autocmd")
   autocmd FileType scss       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType ycss       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sass       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType slim       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
@@ -484,9 +304,7 @@ if has("autocmd")
   autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType sql        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType xhtml      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
@@ -496,95 +314,59 @@ if has("autocmd")
   autocmd FileType blade      setlocal sw=2 sts=2 ts=2 et
 
   autocmd BufRead,BufNewFile *.ycss setlocal ft=scss
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 endif 
 
-
-" turn off auto indent when leaving from insert mode
-autocmd InsertLeave * set nopaste
-
-" turn off auto comment insertion after enter
-autocmd FileType * set formatoptions-=ro
 " }}}
 
-" searching settings {{{
+" Searching {{{
 
-" hit Cap letters even when searching with non Cap
 set ignorecase
-" distinct Cap and none Cap when searching with Cap and none combined
 set smartcase
-" instant search with enter after the word
 set incsearch
-" stop at the end of the file
 set nowrapscan
 
 " }}}
 
-" Showing settings {{{
+" UI {{{
 
 set number
-set cursorline
-set showmatch
-set hidden
 set ruler
+set hidden
+set showmatch
 set showcmd
-set norestorescreen=off
-
+set listchars=tab:»-
 set list
 
 highlight NonText cterm=underline ctermfg=darkgrey
 highlight SpecialKey cterm=underline ctermfg=darkgrey
-set listchars=tab:»-
+
+" }}}
+
+" GUI {{{
+
+" Font
+if has('gui_running')
+  set guifont=Ricty:h14
+  set t_Co=256
+
+  set background=dark
+  colorscheme codeschool
+end
+
+" }}}
+
+" Other {{{
+
+" turn off auto indent when leaving from insert mode
+autocmd InsertLeave * set nopaste
+" turn off auto comment insertion after enter
+autocmd FileType * set formatoptions-=ro
+
+" accelerated-jk
+nmap j <Plug>(accelerated_jk_gj_position)
+nmap k <Plug>(accelerated_jk_gk_position)
 
 " }}}
 
 " }}}
-
-" Language settings {{{
-
-" HTML5 {{{
-
-" HTML5 Tags Setting {{{
-
-syn keyword htmlTagName contained article aside audio bb canvas command
-syn keyword htmlTagName contained datalist details dialog embed figure
-syn keyword htmlTagName contained header hgroup keygen mark meter nav output
-syn keyword htmlTagName contained progress time ruby rt rp section time
-syn keyword htmlTagName contained source figcaption
-syn keyword htmlArg contained autofocus autocomplete placeholder min max
-syn keyword htmlArg contained contenteditable contextmenu draggable hidden
-syn keyword htmlArg contained itemprop list sandbox subject spellcheck
-syn keyword htmlArg contained novalidate seamless pattern formtarget
-syn keyword htmlArg contained formaction formenctype formmethod
-syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
-syn keyword htmlArg contained hidden role
-syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
-syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
-
-" }}}
-
-" }}}
-
-" C++ {{{
-
-" Include Path
-augroup cpp-path
-  autocmd!
-  autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/opt/local/include
-augroup END
-
-" }}}
-
-" Ruby {{{
-
-au BufRead,BufNewFile *.rabl setf ruby
-
-" }}}
-
-" JSX {{{
-
-let g:jsx_pragma_required = 1
-
-" }}}
-
-" }}}
-
