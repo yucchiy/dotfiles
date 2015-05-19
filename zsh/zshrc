@@ -1,5 +1,5 @@
 export ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
-export ZSH_THEME="eastwood"
+export ZSH_THEME="wezm"
 
 export EDITOR='vim'
 
@@ -10,8 +10,9 @@ export TERM="xterm-256color"
 
 setopt no_flow_control
 
-export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH
+export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH:$HOME/.composer/vendor/bin
 export LD_LIBRARY_PATH=/usr/local/lib
+
 
 # setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -25,6 +26,12 @@ eval "$(direnv hook zsh)"
 # enable oh-my-zsh
 plugins=(brew bundler git git-extras rbenv vagrant github docker)
 source $ZSH/oh-my-zsh.sh
+
+export PS1='$(git_prompt_info)%(?,,%{${fg_bold[white]}%}[%?]%{$reset_color%} )%(?,%{$fg[green]%},%{$fg[red]%})%#%{$reset_color%} '
+export RPS1=''
+
+export ZSH_THEME_GIT_PROMPT_DIRTY="%{%})%{%}✘%{%}"
+
 
 # for golang
 export GOPATH=$HOME

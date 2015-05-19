@@ -42,6 +42,7 @@ set clipboard+=unnamed
 set clipboard+=autoselect
 
 let $PATH=$HOME."/bin:".$PATH
+
 " }}}
 
 " Plugin settings {{{
@@ -61,6 +62,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Color scheme
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'reedes/vim-colors-pencil'
+NeoBundle '29decibel/codeschool-vim-theme'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'yucchiy/vim-dracula'
 NeoBundle 'whatyouhide/vim-gotham'
@@ -116,12 +118,8 @@ NeoBundle 'rizzatti/dash.vim'
 NeoBundle "thinca/vim-localrc"
 NeoBundle 'tyru/caw.vim'
 NeoBundle "jceb/vim-hier"
-NeoBundle 'bling/vim-airline'
 NeoBundle 'sorah/unite-ghq'
 NeoBundle 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
-NeoBundle 'mattn/emoji-vim'
-NeoBundle 'junegunn/vim-emoji'
-NeoBundle 'rhysd/unite-emoji.vim'
 
 " references
 NeoBundle 'thinca/vim-ref'
@@ -134,7 +132,9 @@ NeoBundle 'Shougo/context_filetype.vim'
 NeoBundle 'osyo-manga/vim-precious'
 
 " PHP
+NeoBundle 'StanAngeloff/php.vim'
 NeoBundle 'evidens/vim-twig'
+NeoBundle 'xsbeats/vim-blade'
 
 " CMake
 NeoBundle 'vhdirk/vim-cmake'
@@ -178,6 +178,9 @@ NeoBundle 'toyamarinyon/vim-swift'
 " Filer
 NeoBundle "Shougo/vimfiler"
 
+" Misc
+NeoBundle 'rhysd/accelerated-jk'
+
 
 " Plugin reading finish
 filetype plugin indent on
@@ -215,8 +218,6 @@ nnoremap <silent>[unite]tb        :<C-u>Unite tab<CR>
 
 " call unite#custom_source('file_rec', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\|class\)$\|\%(^\|/\)\%(\.hg\|\.git\|\.bzr\|\.svn\|\.vagrant\|\.sass-cache\|\.tmp\|.local.\.vimrc\|bower_components\|_secret\|node_modules\|tags\%(-.*\)\?\)\%($\|/\)\|\<target\>')
 
-set completefunc=emoji#complete
-
 " unite-outline {{{
 nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
 " }}}
@@ -224,11 +225,6 @@ nnoremap <silent>[unite]o :<C-u>Unite outline -vertical -no-start-insert<CR>
 " unite-ghq {{{
 nnoremap <silent>[unite]g :<C-u>Unite ghq<CR>
 " }}}
-
-" unite-emoji {{{
-nnoremap <silent>[unite]e :<C-u>Unite emoji<CR>
-" }}}
-
 
 " unite-colorscheme {{{
 nnoremap [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
@@ -271,7 +267,6 @@ function! DispatchUniteFileRecAsyncOrGit()
 endfunction
 
 " nnoremap <silent> <C-p> :<C-u>call DispatchUniteFileRecAsyncOrGit()<CR>
-
 " }}}
 
 " NeoComplete/NeoComplCache{{{
@@ -288,8 +283,11 @@ if neobundle#is_installed('neocomplete')
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
   if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
-    endif
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+  let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
   let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
 
   inoremap <expr><C-g>     neocomplete#undo_completion()
@@ -301,6 +299,9 @@ elseif neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_smart_case = 1
   if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
+  endif
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
   endif
   let g:neocomplcache_keyword_patterns._ = '\h\w*'
   let g:neocomplcache_enable_camel_case_completion = 1
@@ -398,24 +399,12 @@ hi IndentGuidesOdd  ctermbg=235
 hi IndentGuidesEven ctermbg=237
 " }}}
 
-" Airline {{{
-
-let g:airline_section_a = airline#section#create(['mode',''])
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#right_sep = ' '
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#tab_nr_type = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_left_sep = ' '
-let g:airline_right_sep = ' '
-set laststatus=2
-
-" }}}
-
 " Others {{{
 let g:vimfiler_as_default_explorer = 1
 map <Leader>fl :VimFiler . -split -simple -winwidth=35 -no-quit<CR>
+
+nmap j <Plug>(accelerated_jk_gj_position)
+nmap k <Plug>(accelerated_jk_gk_position)
 " }}}
 
 " }}}
@@ -440,11 +429,7 @@ set t_Co=256
 "colorscheme pencil
 if has('gui_running')
   set background=dark
-  colorscheme dracula
-  " hi Normal ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f8f8f2 guibg=#282a36
-else
-  set background=dark
-  colorscheme dracula
+  colorscheme codeschool
 end
 " }}}
 
@@ -481,6 +466,7 @@ if has("autocmd")
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scss       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType ycss       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sass       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType slim       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
@@ -497,16 +483,19 @@ if has("autocmd")
   autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType sql        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType xhtml      setlocal sw=2 sts=2 ts=22 et
+  autocmd FileType xhtml      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType twig       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType blade      setlocal sw=2 sts=2 ts=2 et
+
+  autocmd BufRead,BufNewFile *.ycss setlocal ft=scss
 endif 
 
 
