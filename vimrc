@@ -75,6 +75,10 @@ NeoBundle 'shougo/unite-help'
 " Install NeoComplete or NeoComplcache for using AutoComplete
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 
+" Install additional plugins of NeoComplete
+NeoBundle 'm2mdas/phpcomplete-extended'
+NeoBundle 'm2mdas/phpcomplete-extended-laravel'
+
 " Filer
 NeoBundle "Shougo/vimfiler"
 
@@ -86,25 +90,33 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'mxw/vim-jsx'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'tpope/vim-markdown'
+NeoBundle "pangloss/vim-javascript"
+NeoBundle "digitaltoad/vim-jade"
+NeoBundle 'slim-template/vim-slim'
+NeoBundle "vim-ruby/vim-ruby.git"
+NeoBundle "tpope/vim-haml"
+NeoBundle 'vhdirk/vim-cmake'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'b4winckler/vim-objc'
 
 " Misc
-NeoBundle 'slim-template/vim-slim'
+NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'rhysd/accelerated-jk'
-NeoBundle '29decibel/codeschool-vim-theme'
 NeoBundle 'osyo-manga/vim-precious', { 'depends': 'Shougo/context_filetype.vim' }
 NeoBundle "thinca/vim-localrc"
 NeoBundle 'tyru/caw.vim'
-NeoBundle 'vhdirk/vim-cmake'
-NeoBundle 'fatih/vim-go'
-NeoBundle "pangloss/vim-javascript"
-NeoBundle "digitaltoad/vim-jade"
-NeoBundle 'bling/vim-airline'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'itspriddle/vim-marked'
+NeoBundle 'Shougo/vimshell.vim'
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
-NeoBundleLazy 'edsono/vim-matchit', { 
+NeoBundleLazy 'edsono/vim-matchit', {
       \ 'autoload' : {
       \   'filetypes': 'ruby',
-      \   'mappings' : ['nx', '%']
+      \   'mappings' : ['%']
       \   }
       \ }
 
@@ -118,9 +130,6 @@ NeoBundleLazy 'alpaca-tc/vim-endwise.git', {
       \ 'autoload' : {
       \   'insert' : 1,
       \ }}
-
-NeoBundle "vim-ruby/vim-ruby.git"
-NeoBundle "tpope/vim-haml"
 
 
 " Plugin reading finish
@@ -255,9 +264,21 @@ nmap g/ <Plug>(easymotion-sn)
 xmap g/ <Plug>(easymotion-sn)
 omap g/ <Plug>(easymotion-tn)
 
-EMCommandLineNoreMap <Space> <CR>
-EMCommandLineNoreMap ; <CR>
-EMCommandLineNoreMap <C-j> <Space>
+" }}}
+
+" lightline.vim {{{
+
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ }
+
+" }}}
+
+" indent-guides {{{
+
+let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_start_level = 1
+let g:indent_guides_guide_size = 1
 
 " }}}
 
@@ -335,8 +356,18 @@ set ruler
 set hidden
 set showmatch
 set showcmd
+set cursorline
 set listchars=tab:»-
 set list
+set laststatus=2
+
+" text width
+set tw=80
+set formatoptions+=t
+set wrap linebreak nolist
+
+" hyde the right scroll bar
+set guioptions-=R
 
 highlight NonText cterm=underline ctermfg=darkgrey
 highlight SpecialKey cterm=underline ctermfg=darkgrey
@@ -346,12 +377,14 @@ highlight SpecialKey cterm=underline ctermfg=darkgrey
 " GUI {{{
 
 " Font
+syntax enable
 if has('gui_running')
-  set guifont=Ricty:h14
+  set guifont=Source\ Han\ Code\ JP\ Medium:h12
+  set transparency=10
   set t_Co=256
 
   set background=dark
-  colorscheme codeschool
+  colorscheme jelleybeans
 end
 
 " }}}
@@ -366,6 +399,9 @@ autocmd FileType * set formatoptions-=ro
 " accelerated-jk
 nmap j <Plug>(accelerated_jk_gj_position)
 nmap k <Plug>(accelerated_jk_gk_position)
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
 
 " }}}
 
