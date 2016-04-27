@@ -45,10 +45,12 @@ Thumbs.db
 *.swp
 *.swo
 tags
+.tags
+.Gemfile.lock.tags
 .idea/
 .ruby-version
 .vimsessions/
 .phpcomplete_extended/
 .phpcomplete_extended/
 
-
+tags

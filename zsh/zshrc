@@ -4,20 +4,19 @@ export ZSH_THEME="wezm"
 export EDITOR='vim'
 
 export LANG=ja_JP.UTF-8
+
 export LESSCHARSET=UTF-8
 
 export TERM="xterm-256color"
 
 setopt no_flow_control
 
-export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH:$HOME/.composer/vendor/bin
+export PATH=/usr/local/share/npm/bin:/usr/local/bin:$HOME/.rbenv/shims:$HOME/bin:$PATH:$HOME/.composer/vendor/bin:$HOME/.cargo/bin
 export LD_LIBRARY_PATH=/usr/local/lib
 
 
 # setting rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-source $HOME/.phpbrew/bashrc
 
 for f (~/.zsh/sources/peco/*) source "${f}"
 
@@ -45,9 +44,7 @@ if [ -n "$TMUX" ]; then
     alias pbcopy="reattach-to-user-namespace pbcopy"
 fi
 
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/yucchiy/.boot2docker/certs/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
+eval "$(docker-machine env default)"
 
 export SSL_CERT_FILE=/usr/local/etc/openssl/cert.pem
 
@@ -62,3 +59,31 @@ alias pk="peco-pkill"
 alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
 alias -g BA='`git branch -a | peco | sed -e "s/^\*[ ]*//g"`'
 alias tiga="tig --all"
+alias vim="nvim"
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/yucchiy/Downloads/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/yucchiy/Downloads/google-cloud-sdk/completion.zsh.inc'
+
+# Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
+export COCOS_CONSOLE_ROOT=/usr/share/cocos2d-x/3.8/tools/cocos2d-console/bin
+export PATH=$COCOS_CONSOLE_ROOT:$PATH
+
+# Add environment variable COCOS_TEMPLATES_ROOT for cocos2d-x
+export COCOS_TEMPLATES_ROOT=/usr/share/cocos2d-x/3.8/templates
+export PATH=$COCOS_TEMPLATES_ROOT:$PATH
+
+# Add environment variable NDK_ROOT for cocos2d-x
+export NDK_ROOT=/usr/share/android-ndk/r10e
+export PATH=$NDK_ROOT:$PATH
+
+# Add environment variable ANDROID_SDK_ROOT for cocos2d-x
+export ANDROID_SDK_ROOT=/usr/local/Cellar/android-sdk/24.3.4
+export PATH=$ANDROID_SDK_ROOT:$PATH
+export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$PATH
+
+# Add environment variable ANT_ROOT for cocos2d-x
+export ANT_ROOT=/usr/local/Cellar/ant/1.9.6/bin
+export PATH=$ANT_ROOT:$PATH
